@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .primary-btn {
+        @apply mx-auto w-56 flex items-center justify-center bg-alternative rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-100 hover:bg-highlight
+    }
+}
+
+@layer components {
+    .below-header-height {
+        @apply min-h-[calc(100vh-5rem)]
+    }
+}
+
