@@ -4,20 +4,27 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 const handleLogin = async (req, res) => {
-    const { email, password } = req.body
-    // If somehow someone hacks front-end and sends req without email / password
-    if ( !email || !password ){
-        return res.status(400).json({ 'message': 'Username and password are required' })
-    }
+    try {
+        const { email, password } = req.body
+        // If somehow someone hacks front-end and sends req without email / password
+        if ( !email || !password ){
+            return res.status(400).json({ 'message': 'Username and password are required' })
+        }
 
-    // Find user in database
-    const userFound = await UserModel.findOne({ email: email }).exec()
-    if (!userFound) return res.sendStatus(401) //Unauthorized
+        // Find user in database
+        const userFound = await UserModel.findOne({ email: email }).exec()
 
-    // Verify password
-    const match = await bcrypt.compare(password, userFound.password)
+        if (!userFound) {
+            return res.status(401).json({ message: 'Invalid credentials'})
+        }
 
-    if (match) {
+        // Verify password
+        const match = await bcrypt.compare(password, userFound.password)
+
+        if (!match) {
+            return res.status(401).json({ message: 'Invalid credentials'})
+        }
+
         // Find roles
         const roles = Object.values(userFound.roles).filter(Boolean)
 
@@ -30,7 +37,7 @@ const handleLogin = async (req, res) => {
                 },
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '10s' }
+            { expiresIn: '50s' }
         )
         const refreshToken = jwt.sign(
             { "email": userFound.email },
@@ -40,20 +47,18 @@ const handleLogin = async (req, res) => {
         
         // Save refreshToken with current user
         userFound.refreshToken = refreshToken
-        const result = await userFound.save()
-        console.log(result)
-        console.log(roles)
+        await userFound.save()
 
         // Create cookie with refresh token
-
+        res.cookie('jwt', refreshToken, { httpOnly: true, /*secure: true, sameSite: 'None', */ maxAge: 24 * 60 * 60 * 1000 });
+        
         // Send authorization roles and access token 
+        res.json({ roles, accessToken })
 
-        res.json({ roles, accessToken})
-    }
-
-    else {
-        res.sendStatus(401)
-    }
+    } catch (err) {
+        console.error('Login failed:', err.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }    
 }
 
 module.exports = { handleLogin }

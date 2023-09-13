@@ -1,13 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { qbankApi } from "./api/apiSlice";
-import authReducer from "./slices/authSlice";
+import { configureStore } from "@reduxjs/toolkit"
+import { apiSlice } from "./api/apiSlice"
+import localStorageMiddleware from "./middleware/localStorage"
+import authReducer from './slices/authSlice'
 
 export const store = configureStore({
     reducer: {
-        [qbankApi.reducerPath]: qbankApi.reducer,
-        auth: authReducer,
+        [apiSlice.reducerPath]: apiSlice.reducer,
+        auth: authReducer
     },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(qbankApi.middleware),
-    devTools: true,
-});
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().concat(apiSlice.middleware, localStorageMiddleware),
+    devTools: true
+})

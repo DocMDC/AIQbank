@@ -9,6 +9,7 @@ const allRoutes = require('./routes/allRoutes')
 const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/errorHandler')
 
+
 const PORT = process.env.PORT || 5000
 
 // Connect to MOngoDB
@@ -16,7 +17,8 @@ const connectDB = require('./config/dbConn')
 
 // Allow cors
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: 'http://localhost:5173',
+    credentials: true
 }))
 
 app.set('trust proxy', 1);
@@ -45,7 +47,7 @@ async function start () {
             console.log(`Listening on port ${PORT}...`)
         })
     } catch (err) {
-        console.log(err)
+        console.log('the server could not start ' + err)
     }
 }
 

@@ -1,12 +1,15 @@
 import React, {useState, useRef, useEffect} from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useRegisterMutation } from "../redux/api/apiSlice"
+import { useRegisterMutation } from "../../redux/slices/authApiSlice"
+import { setAuth } from '../../redux/slices/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 export default function Register() {
     const [registerUser, {isLoading} ] = useRegisterMutation()
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     
     const [registerForm, setRegisterForm] = useState({
@@ -67,10 +70,16 @@ export default function Register() {
         }
         
         try {
-            await registerUser ({ 
+            const result = await registerUser ({ 
                 email: registerForm.email.toLowerCase(),
                 password: registerForm.password
             }).unwrap()
+
+            dispatch(setAuth({
+                email: registerForm.email,
+                roles: result.roles,
+                token: result.accessToken 
+            }))
 
             setRegisterForm({
                 email: "",
@@ -88,15 +97,15 @@ export default function Register() {
                 // email already registered
                 setErrMsg(err.data.message)
             } else {
-                setErrMsg("Server failed. Please try again.")
+                setErrMsg("Server failed. Please Try again later.")
             }
         }
     }
 
     return (
         <div className="below-header-height flex items-center justify-center">
-            <div className="min-h-[625px] w-[325px] bg-secondary border-primary border rounded-md px-4 relative">
-                <h1 className="text-center text-2xl border-b border-alternative pb-6 mt-6">Register</h1>
+            <div className="min-h-[625px] w-[325px] bg-public-100 border-bg-public-200 border rounded-md px-4 relative">
+                <h1 className="text-center text-2xl border-b border-public-400 pb-6 mt-6">Register</h1>
                 <p ref={errRef} className={errMsg ? "pt-2 text-center text-red-500 absolute text-sm w-[294px]" : "hidden"}>{errMsg}</p>
                 <form className="flex flex-col  relative" onSubmit={submitRegisterForm}>
                     <label htmlFor="email" className="mt-12">Email<span className="text-red-600">*</span></label>
@@ -110,7 +119,7 @@ export default function Register() {
                         required
                         onFocus={() => setEmailFocus(true)}
                         onBlur={() => setEmailFocus(false)}
-                        className={emailFocus && registerForm.email.length > 0 && !validEmail ? "border border-gray-300 bg-secondary h-10 mt-2  px-2" : " border border-gray-300 bg-secondary h-10 mt-2  px-2 mb-6"}
+                        className={emailFocus && registerForm.email.length > 0 && !validEmail ? "border border-gray-300 bg-public-100 h-10 mt-2 px-2" : " border border-gray-300 bg-public-100 h-10 mt-2  px-2 mb-6"}
                     />
                     <p className={emailFocus && registerForm.email.length > 0 && !validEmail ? "text-xs text-red-600 mt-2 mb-2" : "hidden"}>Must use valid email address.</p>
                     <label htmlFor="password">Password<span className="text-red-600">*</span></label>
@@ -121,7 +130,7 @@ export default function Register() {
                         value={registerForm.password}
                         onChange={updateRegisterForm}
                         required
-                        className={pwdFocus && !validPwd ? "border border-gray-300 bg-secondary h-10 mt-2 px-2" : "border border-gray-300 bg-secondary h-10 mt-2 px-2 mb-6"}
+                        className={pwdFocus && !validPwd ? "border border-gray-300 bg-public-100 h-10 mt-2 px-2" : "border border-gray-300 bg-public-100 h-10 mt-2 px-2 mb-6"}
                         onFocus={() => setPwdFocus(true)}
                         onBlur={() => setPwdFocus(false)}
                     />
@@ -139,17 +148,18 @@ export default function Register() {
                         required
                         onFocus={() => setConfirmPwdFocus(true)}
                         onBlur={() => setConfirmPwdFocus(false)}
-                        className={confirmPwdFocus && !validMatch ? "border border-gray-300 bg-secondary h-10 mt-2  px-2" : "border border-gray-300 bg-secondary h-10 mt-2  px-2 mb-6"}
+                        className={confirmPwdFocus && !validMatch ? "border border-gray-300 bg-public-100 h-10 mt-2  px-2" : "border border-gray-300 bg-public-100 h-10 mt-2  px-2 mb-6"}
                     />
                     <p className={confirmPwdFocus && !validMatch ? "text-red-600 text-xs mt-2 mb-2" : "hidden"}>Must match the first password input field.</p>
-                    <h6 className="text-[12px] mb-6">Already a user? <span className="text-primary cursor-pointer hover:text-highlight"><Link to="/login">Login here.</Link></span></h6>
-                    <h6 className="text-[12px] mb-8">By clicking submit, I acknowledge receipt of the DeepMindQbank, inc. 
+                    
+                    <button className={!validEmail || !validPwd || !validMatch ? "mx-auto w-56 flex items-center justify-center bg-gray-200 rounded-2xl h-12 p-2 text-black" : "primary-btn"} disabled={!validEmail || !validPwd || !validMatch ? true : false}>Submit</button>
+
+                    <h6 className="text-[12px] mb-6 mt-4">Already a user? <span className="text-public-200 cursor-pointer hover:text-highlight"><Link to="/login">Login here.</Link></span></h6>
+                    <h6 className="text-[12px]">By clicking submit, I acknowledge receipt of the Edge Up Learning, inc. 
                     <Link to='/privacy'>
-                        <span className="text-primary cursor-pointer hover:text-highlight"> privacy policy</span>
+                        <span className="text-public-200 cursor-pointer hover:text-public-300"> privacy policy</span>
                     </Link>
                     .</h6>
-
-                    <button className={!validEmail || !validPwd || !validMatch ? "mx-auto w-56 flex items-center justify-center bg-gray-200 rounded-2xl h-12 p-2 text-black" : "primary-btn"} disabled={!validEmail || !validPwd || !validMatch ? true : false}>Submit</button>
                 </form>
             </div>
         </div>
