@@ -11,7 +11,6 @@ export function useRefreshToken() {
     const refresh = async () => {
         try {
             const response = await triggerRefresh();
-            
             dispatch(setAuth({
                 email: currentEmail,
                 roles: response.data.roles,

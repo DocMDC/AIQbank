@@ -1,4 +1,4 @@
-const UserModel = require('../models/User');
+import UserModel from '../models/User.js'
 const handleLogout = async (req, res) => {
     
     const cookies = req.cookies;
@@ -20,4 +20,4 @@ const handleLogout = async (req, res) => {
     res.sendStatus(204);
 }
 
-module.exports = { handleLogout }
+export {handleLogout}

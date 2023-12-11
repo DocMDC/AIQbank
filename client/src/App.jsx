@@ -1,36 +1,30 @@
 import React from 'react'
 import { Routes, Route, Link } from "react-router-dom"
 import PublicLayout from "./components/PublicLayout"
-import Home from "./pages/public/Home"
-import About from "./pages/public/About"
-import Purchase from "./pages/public/Purchase"
-import Login from "./pages/public/Login"
-import Register from "./pages/public/Register"
-import Privacy from "./pages/public/Privacy"
-import Missing from "./pages/public/Missing"
-import UserLayout from "./components/UserLayout"
+import Home from "./pages/Home"
+import About from "./pages/About"
+import Purchase from "./pages//Purchase"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
+import Privacy from "./pages/Privacy"
+import Missing from "./pages/Missing"
+import StudentLayout from "./components/StudentLayout"
 import StudentDashboard from "./pages/student/StudentDashboard"
 import StudentExams from "./pages/student/StudentExams"
+import StudentCreateExam from "./pages/student/StudentCreateExam"
 import StudentAccount from "./pages/student/StudentAccount"
 import RequireAuth from "./components/RequireAuth"
 import Unauthorized from "./pages/Unauthorized"
-import TeacherLayout from "./components//TeacherLayout"
+import TeacherLayout from "./components/TeacherLayout"
 import TeacherDashboard from "./pages/teacher/TeacherDashboard"
-import TeacherExams from "./pages/teacher/TeacherExams"
-import TeacherNewExam from "./pages/teacher/TeacherNewExam"
+import TeacherMyExams from "./pages/teacher/TeacherMyExams"
+import TeacherCreateExam from "./pages/teacher/TeacherCreateExam"
 import TeacherStudents from "./pages/teacher/TeacherStudents"
 import TeacherAccount from "./pages/teacher/TeacherAccount"
+import TeacherDocuments from "./pages/teacher/TeacherDocuments"
 import PersistLogin from "./components/PersistLogin"
-import AdminLayout from "./components/AdminLayout"
-import AdminDashboard from "./pages/admins/AdminDashboard"
-import AllStudents from "./pages/admins/AllStudents"
-import MyTeachers from "./pages/admins/MyTeachers"
-import AdminAccount from "./pages/admins/AdminAccount"
-import ArchitectLayout from "./components/ArchitectLayout"
-import ArchitectDashboard from "./pages/architect/ArchitectDashboard"
-import AllUsers from "./pages/architect/AllUsers"
-import ResetPassword from "./pages/public/ResetPassword"
-import ForgotPassword from "./pages/public/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword"
+import ForgotPassword from "./pages/ForgotPassword"
 
 const ROLES = {
   "architect": 9498281420294,
@@ -57,11 +51,14 @@ export default function App() {
 
           {/* student-specific private routes */}
         <Route element={<PersistLogin />}>
-          <Route path="dashboard" element={<UserLayout/>}>
+          <Route path="dashboard" element={<StudentLayout/>}>
             <Route element={<RequireAuth allowedRoles={[ROLES.user, ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
               <Route index element={<StudentDashboard/>}/>
             </Route>
             <Route element={<RequireAuth allowedRoles={[ROLES.user, ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
+              <Route path="create-exam" element={<StudentCreateExam/>}/>
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
               <Route path="my-exams" element={<StudentExams/>}/>
             </Route>
             <Route element={<RequireAuth allowedRoles={[ROLES.user, ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
@@ -78,10 +75,13 @@ export default function App() {
               <Route index element={<TeacherDashboard/>}/>
             </Route>
             <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
-              <Route path="exams" element={<TeacherExams/>}/>
+              <Route path="my-exams" element={<TeacherMyExams/>}/>
             </Route>
             <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
-              <Route path="new-exam" element={<TeacherNewExam/>}/>
+              <Route path="create-exam" element={<TeacherCreateExam/>}/>
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
+              <Route path="documents" element={<TeacherDocuments/>}/>
             </Route>
             <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.teacher, ROLES.architect]} />}>
               <Route path="students" element={<TeacherStudents/>}/>
@@ -90,33 +90,6 @@ export default function App() {
               <Route path="account" element={<TeacherAccount/>}/>
             </Route>
           </Route>
-
-          {/* admin-specific prviate routes */}
-          <Route path="admin-dashboard" element={<AdminLayout/>}>
-            <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.architect]} />}>
-              <Route index element={<AdminDashboard/>}/>
-            </Route>
-            <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.architect]} />}>
-              <Route path="teachers" element={<MyTeachers/>}/>
-            </Route>
-            <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.architect]} />}>
-              <Route path="all-students" element={<AllStudents/>}/>
-            </Route>
-            <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.architect]} />}>
-              <Route path="account" element={<AdminAccount/>}/>
-            </Route>
-          </Route>
-
-          {/* architect-specific prviate routes */}
-          <Route path="architect" element={<ArchitectLayout/>}>
-            <Route element={<RequireAuth allowedRoles={[ROLES.architect]} />}>
-              <Route index element={<ArchitectDashboard/>}/>
-            </Route>
-            <Route element={<RequireAuth allowedRoles={[ROLES.architect]} />}>
-              <Route path="all-users" element={<AllUsers/>}/>
-            </Route>
-          </Route>
-
         </Route>
 
         <Route path="*" element={<Missing />} />

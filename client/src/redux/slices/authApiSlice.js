@@ -16,13 +16,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials }
             })
         }),
-        aiChat: builder.mutation({
-            query: message => ({
-                url: '/ai',
-                method: 'POST',
-                body: {message} 
-            })
-        }),
         logout: builder.query({
             query: () => "/logout"
         }),
@@ -51,7 +44,6 @@ export const {
     useRegisterMutation,
     useLazyLogoutQuery,
     useLazyRefreshQuery,
-    useAiChatMutation,
     useForgotMutation,
     useResetMutation
 } = authApiSlice

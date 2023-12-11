@@ -1,6 +1,6 @@
-const UserModel = require('../models/User');
-const bcrypt = require('bcrypt');
-const ResetReqModel = require('../models/ResetReq');
+import UserModel from '../models/User.js'
+import bcrypt from 'bcrypt'
+import ResetReqModel from '../models/ResetReq.js'
 
 const handleResetPassword = async (req, res) => {
     try {
@@ -36,6 +36,6 @@ const handleResetPassword = async (req, res) => {
     }
 };
 
-module.exports = { handleResetPassword };
+export { handleResetPassword }
 
 

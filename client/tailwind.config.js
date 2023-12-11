@@ -7,6 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
+        100: '#ffffff', /* white */
+        200: '#f9fafb', /* light gray */
+        300: '#f3f3f4', /* medium gray gray */
+        400: '#ebebeb', /* dark gray */
+        500: '#65656a',  /* very dark gray */
+        600: '#00beac', /* primary green */
+        700: '#009989', /* highlight green */
+        800: '#0b2033', /* alternative dark */
+        t: {
+          100: '#ffffff', 
+          300: '#00beac',
+          400: '#0b2033'
+        },
         public: {
           100: '#f9fafb', /* secondary gray/white */
           200: '#00beac', /* primary green */

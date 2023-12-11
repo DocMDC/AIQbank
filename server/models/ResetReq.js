@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+import mongoose from 'mongoose';
 
-const resetReq = new Schema({
+const { Schema } = mongoose;
+
+const resetReqSchema = new Schema({
     uniqueId: String,
     email: String
 });
 
-module.exports = mongoose.model('ResetReq', resetReq);
+export default mongoose.model('ResetReq', resetReqSchema);

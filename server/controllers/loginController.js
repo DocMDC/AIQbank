@@ -1,8 +1,9 @@
-const UserModel = require('../models/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config()
+import UserModel from '../models/User.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
+dotenv.config();
 const handleLogin = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -61,4 +62,4 @@ const handleLogin = async (req, res) => {
     }    
 }
 
-module.exports = { handleLogin }
+export { handleLogin }

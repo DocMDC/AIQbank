@@ -1,5 +1,5 @@
-const UserModel = require('../models/User');
-const jwt = require('jsonwebtoken');
+import UserModel from '../models/User.js'
+import jwt from 'jsonwebtoken'
 
 const handleRefreshToken = async (req, res) => {
     console.log('refreshing...')
@@ -31,4 +31,4 @@ const handleRefreshToken = async (req, res) => {
     );
 }
 
-module.exports = { handleRefreshToken }
+export { handleRefreshToken }
