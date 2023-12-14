@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useAiChatMutation } from "../../redux/slices/aiApiSlice"
 
-export default function TeacherMyExams() {
+export default function UserExams() {
   const [getAi, {isLoading}] = useAiChatMutation()
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')

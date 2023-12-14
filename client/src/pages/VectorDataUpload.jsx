@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { storage } from "../../config/firebase"
+import { storage } from "../config/firebase"
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
 

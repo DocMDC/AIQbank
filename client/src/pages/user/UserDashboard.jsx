@@ -2,7 +2,7 @@ import React from 'react'
 
 // Contains short video tutorial on how to create exams, use the documents page, add students, and publish exams
 
-export default function TeacherDashboard() {
+export default function UserDashboard() {
   return (
     <div className="bg-300 w-full pb-4">
       <div className="bg-100 h-12 flex items-center justify-center text-xl tracking-wider text-500">
@@ -14,17 +14,3 @@ export default function TeacherDashboard() {
     </div>
   )
 }
-
-/*
-
-<>
-      <div className="min-h-[60px] bg-100 w-full flex items-center justify-center">
-        <h1 className="text-center pt-2 text-xl text-500 tracking-wider">Home</h1>
-      </div>
-
-      <div className="min-h-[900px] bg-100 w-full mt-6">
-
-      </div>
-    </>
-
- */

@@ -9,6 +9,11 @@ import { handleResetPassword } from '../controllers/resetPasswordController.js';
 import { handleEmbedding } from "../controllers/embeddingController.js"
 import { handleQueryEmbedding } from "../controllers/embeddingController.js"
 import { handleUploadFiles, handleUploadFile } from "../controllers/filesController.js"
+import { handleAddQuestion } from "../controllers/addQuestionController.js"
+import { handleGetQuestions } from "../controllers/getQuestionsController.js"
+import { handleGetQuestionById } from "../controllers/getQuestionByIdController.js"
+import { handleEditQuestion } from "../controllers/editQuestionController.js"
+import { handleDeleteQuestion } from "../controllers/deleteQuestionController.js"
 import multer from 'multer'
 
 const fileStorageEngine = multer.diskStorage({
@@ -38,5 +43,10 @@ router.post('/query-embedding', handleQueryEmbedding)
 // router.get('/get-files', handleGetFiles)
 router.post('/multiple', upload.array('pdfs'), handleUploadFiles)
 router.post('single', upload.single('file'), handleUploadFile)
+router.post('/add-question', handleAddQuestion)
+router.get('/get-questions', handleGetQuestions)
+router.get('/get-question/:id', handleGetQuestionById)
+router.patch('/edit-question', handleEditQuestion)
+router.delete('/delete-question/:id', handleDeleteQuestion)
 
 export default router; 

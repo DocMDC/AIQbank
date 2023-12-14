@@ -35,7 +35,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: {paramId}
             })
-        })
+        }),
     })
 })
 
@@ -45,5 +45,5 @@ export const {
     useLazyLogoutQuery,
     useLazyRefreshQuery,
     useForgotMutation,
-    useResetMutation
+    useResetMutation,
 } = authApiSlice

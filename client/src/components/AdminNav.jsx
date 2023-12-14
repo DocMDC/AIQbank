@@ -6,15 +6,15 @@ import useToggleOnResize from "../hooks/useToggleOnResize"
 import useClickOutNav from "../hooks/useClickOutNav"
 import { useLogout } from "../hooks/useLogout"
 import { IoIosCreate } from 'react-icons/io'
+import { LuShieldQuestion } from "react-icons/lu";
 import { MdQuiz } from "react-icons/md"
-import { PiStudentFill } from "react-icons/pi"
 import { MdOutlineManageAccounts } from "react-icons/md"
-import { FaHome } from "react-icons/fa"
-import { GrDocumentPdf } from "react-icons/gr"
+import { MdOutlineAddCircle } from "react-icons/md";
+
 import { setExamNameModal, selectExamNameModal } from '../redux/slices/modalSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
-export default function TeacherNav() {
+export default function AdminNav() {
     const logout = useLogout()
     const dropDownRef = useRef(null)
     const hamburgerRef = useRef(null)
@@ -35,7 +35,7 @@ export default function TeacherNav() {
 
   return (
     <>
-        <Link to="/teacher-dashboard" className="mr-auto md:min-h-[192px] md:flex md:items-center md:justify-center md:mr-0 md:w-full md:border-b md:border-600">
+        <Link to="/admin-dashboard" className="mr-auto md:min-h-[192px] md:flex md:items-center md:justify-center md:mr-0 md:w-full md:border-b md:border-600">
             <h1 className="hover:text-600">Edge Up Learning</h1>
         </Link>
         <div className="flex items-center md:w-full md:flex-grow md:flex-col md:justify-between">
@@ -52,34 +52,29 @@ export default function TeacherNav() {
             >
                 <AiFillCloseCircle className="absolute top-2 right-2 h-6 w-6 text-600 cursor-pointer transition-all ease-in-out hover:text-700 md:hidden" 
                     onClick={() => setHamburgerIsClicked(false)}
-                    />
+                />
 
-                <Link to="/teacher-dashboard" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
-                    <FaHome className="hidden md:block md:text-200 md:text-lg"/>
-                    <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Home</li>
+                <Link to="add-questions" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                    <MdOutlineAddCircle className="hidden md:block md:text-200 md:text-lg"/>
+                    <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Add Question</li>
                 </Link>
 
-                <Link to="create-exam" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                <Link to="edit-questions" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                    <LuShieldQuestion className="hidden md:block md:text-200 md:text-lg"/>
+                    <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Edit Question</li>
+                </Link>
+
+                <Link to="/dashboard/create-exam" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
                     <IoIosCreate className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Create Exam</li>
                 </Link>
 
-                <Link to="my-exams" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
+                <Link to="/dashboard/my-exams" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
                     <MdQuiz className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">My Exams</li>
                 </Link>
 
-                <Link to="documents" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
-                    <GrDocumentPdf className="hidden md:block md:bg-200 md:text-lg"/>
-                    <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Documents</li>
-                </Link>
-
-                <Link to="students" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
-                    <PiStudentFill className="hidden md:block md:text-200 md:text-lg"/>
-                    <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Students</li>
-                </Link>
-
-                <Link to="account" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
+                <Link to="/dashboard/account" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
                     <MdOutlineManageAccounts className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Account</li>
                 </Link>

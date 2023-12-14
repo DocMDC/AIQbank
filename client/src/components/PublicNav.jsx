@@ -39,7 +39,7 @@ export default function PublicNav() {
 
                 <AiFillCloseCircle className="absolute top-2 right-2 h-6 w-6 cursor-pointer transition-all ease-in-out hover:text-public-300 md:hidden" 
                     onClick={() => setHamburgerIsClicked(false)}
-                    />
+                />
                 <Link to="about" className="hover:text-public-200 transition ease-in-out delay-100">About</Link>
                 <Link to="purchase" className="hover:text-public-200 transition ease-in-out delay-100">Pricing</Link>
                 <Link to="login" className="hover:text-public-200 transition ease-in-out delay-100">Login</Link>

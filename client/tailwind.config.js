@@ -15,6 +15,21 @@ export default {
         600: '#00beac', /* primary green */
         700: '#009989', /* highlight green */
         800: '#0b2033', /* alternative dark */
+        exam: {
+          primary: '#d7dced;',
+          secondary: '#004975',
+          primaryText: 'black',
+          secondaryText: '#fcfcfc',
+          navOdd: '#e2e2e2',
+          mainBG: '#d7dced',
+          secondaryBG: '#fcfcfc',
+          gray: '#717172',
+          lightGray: '#D3D3D3',
+          boxShadow: '#4783bd',
+          labContent: '#d7dcec',
+          white: 'white',
+          black: 'black'
+        },
         t: {
           100: '#ffffff', 
           300: '#00beac',
