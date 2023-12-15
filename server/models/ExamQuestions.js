@@ -12,19 +12,35 @@ const examQuestionSchema = new Schema({
     },
     vignette: {
         type: String,
-        required: true
+        required: true,
     },
     choices: {
         type: [String],
-        required: true
+        required: true,
     }, 
     explanations: {
         type: [String],
-        required: true
+        required: true,
     },
     correctChoice: {
         type: Number,
-        required: true
+        required: true,
+    },
+    used: {
+        type: Boolean,
+        default: false,
+    },
+    hasAnswered: {
+        type: Boolean,
+        default: false,
+    },
+    answeredCorrectly: {
+        type: Boolean,
+        default: false,
+    },
+    flagged: {
+        type: Boolean,
+        default: false,
     }
 });
 

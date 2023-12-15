@@ -31,6 +31,9 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
             })
         }),
+        filterQuestions: builder.query({
+            query: () => "/filter-questions", 
+        }),
     })
 })
 
@@ -39,5 +42,6 @@ export const {
     useGetQuestionsQuery,
     useLazyFetchQuestionByIdQuery,
     useEditQuestionMutation,
-    useDeleteQuestionMutation
+    useDeleteQuestionMutation,
+    useFilterQuestionsQuery,
 } = questionsApiSlice

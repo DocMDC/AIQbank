@@ -14,6 +14,7 @@ import { handleGetQuestions } from "../controllers/getQuestionsController.js"
 import { handleGetQuestionById } from "../controllers/getQuestionByIdController.js"
 import { handleEditQuestion } from "../controllers/editQuestionController.js"
 import { handleDeleteQuestion } from "../controllers/deleteQuestionController.js"
+import { handleFilterQuestions } from "../controllers/filterQuestionsController.js"
 import multer from 'multer'
 
 const fileStorageEngine = multer.diskStorage({
@@ -48,5 +49,6 @@ router.get('/get-questions', handleGetQuestions)
 router.get('/get-question/:id', handleGetQuestionById)
 router.patch('/edit-question', handleEditQuestion)
 router.delete('/delete-question/:id', handleDeleteQuestion)
+router.get('/filter-questions', handleFilterQuestions)
 
 export default router; 

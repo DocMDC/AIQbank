@@ -13,11 +13,11 @@ export default function AdminEditQuestions() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await refetch();
+      await refetch()
     };
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   if (isLoading) {
     return <div>Loading...</div>
