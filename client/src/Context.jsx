@@ -9,8 +9,6 @@ function ContextProvider({children}) {
         timedMode: false,
         unused: false,
         incorrect: false,
-        flagged: false,
-        allSubjects: false,
         anatomy: false,
         microbiology: false,
         biochemistry: false,
@@ -19,16 +17,6 @@ function ContextProvider({children}) {
         pathology: false,
         physiology: false,
         pharmacology: false,
-        allOrganSystems: false,
-        cardiology: false,
-        dermatology: false,
-        endocrinology: false,
-        reproduction: false,
-        gastroenterology: false,
-        hematology: false,
-        neurology: false,
-        musculoskeletal: false,
-        numberOfQuestions: 0
       })
     
     function updateCreateExamForm(event) {
@@ -41,9 +29,6 @@ function ContextProvider({children}) {
         }
       })
     }
-
-      
-    
 
     return (
         <Context.Provider value={{

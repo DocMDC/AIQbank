@@ -26,7 +26,9 @@ export default function QuestionMode({ unusedQuestions, incorrectQuestions, inco
               type="checkbox" 
               className={(createExamForm.incorrect || unusedCountValue === 0) ? styles.disabledInput : styles.enabledInput}
               checked={createExamForm.unused}
-              onChange={updateCreateExamForm}
+              onChange={(e) => {
+                updateCreateExamForm(e)
+              }}
               disabled={(createExamForm.incorrect || unusedCountValue === 0) ? true : false}
               />
               <label htmlFor="unused" className={(createExamForm.incorrect || unusedCountValue === 0) ? styles.disabledLabel : styles.enabledLabel}>Unused</label>
@@ -45,7 +47,9 @@ export default function QuestionMode({ unusedQuestions, incorrectQuestions, inco
               type="checkbox" 
               className={(createExamForm.unused || incorrectCountValue === 0) ? styles.disabledInput : styles.enabledInput}
               checked={createExamForm.incorrect}
-              onChange={updateCreateExamForm}
+              onChange={(e) => {
+                updateCreateExamForm(e)
+              }}
               disabled={(createExamForm.unused || incorrectCountValue === 0) ? true : false}
               />
               <label htmlFor="incorrect" className={(createExamForm.unused || incorrectCountValue === 0) ? styles.disabledLabel : styles.enabledLabel}>Incorrect</label>

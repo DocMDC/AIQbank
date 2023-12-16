@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {Context} from "../Context"            
 
-export default function SelectNumberOfQuestions({finalQuestionCountLength}) {
+export default function SelectNumberOfQuestions({finalQuestionCountLength, handleSelectNumberOfQuestions, selectedNumberOfQuestions}) {
     const {createExamForm, updateCreateExamForm} = useContext(Context)
 
   return (
@@ -13,8 +13,11 @@ export default function SelectNumberOfQuestions({finalQuestionCountLength}) {
             name="numberOfQuestions"
             type="number" 
             className="w-12 h-12 border border-800 text-center"
-            checked={createExamForm.numberOfQuestions}
-            onChange={updateCreateExamForm}
+            value={selectedNumberOfQuestions}
+            onChange={(e) => handleSelectNumberOfQuestions(e)}
+            min={1}
+            max={finalQuestionCountLength}
+            disabled={finalQuestionCountLength <= 0 ? true : false}
             />
             <p className="ml-4 text-sm">Maximum allowed based on your selection <span>({finalQuestionCountLength})</span></p>
         </div>

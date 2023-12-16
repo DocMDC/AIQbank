@@ -3,35 +3,28 @@ import { useNavigate } from "react-router-dom"
 import TestMode from "../../components/TestMode"
 import QuestionMode from "../../components/QuestionMode"
 import SelectSubjects from "../../components/SelectSubjects"
-import SelectOrgans from "../../components/SelectOrgans"
 import SelectNumberOfQuestions from "../../components/SelectNumberOfQuestions"
 import { nanoid } from "nanoid"
-import { useFilterQuestionsQuery } from "../../redux/slices/questionsApiSlice"
+import { useFilterQuestionsQuery, usePrepareQuestionsMutation } from "../../redux/slices/questionsApiSlice"
 import {Context} from "../../Context"
 
 
 export default function UserCreateExam() {
-  /* TODOs: */
-  //Fix final question count - perhaps use useRef on each element in Organ Systems and get the number and then add them up
-  //Fix createExamForm update function so that when an organ system is selected and the corresponding subject is deselected, this is reflected appropriately (right now organ system stays true even though it's not displayed with css)
-  //Restrict number of questions input from 1 to max allowed
-  //Pass filters and selections to server and then generate exam with appropriate questions 
 
   const { data: filteredQuestionData, error, isLoading } = useFilterQuestionsQuery()
+  const [prepareQuestions] = usePrepareQuestionsMutation()
   const navigate = useNavigate()
   
-  const { createExamForm } = useContext(Context)
+  const { createExamForm, setCreateExamForm } = useContext(Context)
   const incorrectCountRef = useRef()
   const unusedCountRef = useRef()
-  // const cardiologyCountRef = useRef()
-  // console.log(cardiologyCountRef)
 
   const [incorrectCountValue, setIncorrectCountValue] = useState(null)
   const [unusedCountValue, setUnusedCountValue] = useState(null)
   const [selectedSubjects, setSelectedSubjects] = useState([])
-  const [selectedOrgans, setSelectedOrgans] = useState([])
   const [filteredOrgansBySubjects, setFilteredOrgansBySubjects] = useState({})
-  const [finalFilteredQuestions, setFinalFilteredQuestions] = useState({})
+  const [selectedNumberOfQuestions, setSelectedNumberOfQuestions] = useState(0)
+  const [finalQuestionCountLength, setFinalQuestionCountLength] = useState(0)
 
   useEffect(() => {
     if (incorrectCountRef.current) {
@@ -41,6 +34,14 @@ export default function UserCreateExam() {
       setUnusedCountValue(parseInt(unusedCountRef.current.innerHTML, 10))
     }
   }, [filteredQuestionData])
+
+  useEffect(() => {
+    updateSelections();
+  }, [createExamForm.unused, createExamForm.incorrect])
+
+  useEffect(() => {
+    updateMaximumQuestionCount();
+  }, [createExamForm])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -53,24 +54,6 @@ export default function UserCreateExam() {
   const incorrectQuestions = filteredQuestionData?.incorrectQuestions 
   const unusedQuestions = filteredQuestionData?.unusedQuestions
   const allOrgans = filteredQuestionData?.allOrganSystemsQuestions
-  const allSubjects = filteredQuestionData?.allSubjectsQuestions
-
-  
-
-  //Create refs for each organ system and use these in the SelectOrgans component to reference the number of questions available
-
-  // const organSystemCountRefs = Object.fromEntries(
-  //   Object.keys(allOrgans).map((organSystem) => [
-  //     organSystem,
-  //     useRef(null),
-  //   ])
-  // )
-
-  function submitCreateExam() {
-    const examSessionId = nanoid()
-    console.log(examSessionId)
-    navigate(`/exam/${examSessionId}`)
-  }
 
   //Reformat unused and incorrect question data from server so that it's in JSON format and can be easily passed down to the SelectSubjects component as props
   let unusedQuestionsBySubject = {}
@@ -109,6 +92,7 @@ export default function UserCreateExam() {
       const updatedSubjects = isSelected
         ? [...prevSelectedSubjects, subject]
         : prevSelectedSubjects.filter((selectedSubject) => selectedSubject !== subject)
+    //selectedSubjects is an array of strings with the selected subjects (eg, ['anatomy', 'microbiology', etc.])
   
       const newFilteredOrgansBySubjects = {}
   
@@ -123,38 +107,118 @@ export default function UserCreateExam() {
       })
   
       setFilteredOrgansBySubjects(newFilteredOrgansBySubjects)
-  
       return updatedSubjects
     })
   }
+  
+  const filterSelectedQuestions = () => {
+   //Randomly select number of questions from filteredOrgansBySubjects based on finalQuestionCountLength
+  //Convert to an array of questions
+  const flattenedArray = Object.keys(filteredOrgansBySubjects).flatMap((organSystem) => {
+    return filteredOrgansBySubjects[organSystem]
+  })
 
-  //Update the SelectOrgans.jsx component and all of the questions obtained from the server so that there is a JSON formatted object containing the questions of interest, ultimately used to generate a set of filtered questions matching the user's selection  
-  function handleOrganSelection(organ, isSelected) {
-    setSelectedOrgans((prevSelectedOrgans) => {
-      const updatedOrgans = isSelected
-        ? [...prevSelectedOrgans, organ]
-        : prevSelectedOrgans.filter((selectedOrgan) => selectedOrgan !== organ)
-
-      const newFinalFilteredQuestions = {}
-
-      Object.keys(filteredOrgansBySubjects).forEach((system) => {
-        const filteredQuestions = filteredOrgansBySubjects[system].filter((organ) => updatedOrgans.includes(organ.organSystem))
-        
-        if (filteredQuestions.length > 0) {
-          newFinalFilteredQuestions[system] = filteredQuestions
-        }
-      })
-
-      setFinalFilteredQuestions(newFinalFilteredQuestions)
-
-      return updatedOrgans
-    })
+  //shuffle array function
+  function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]]
+    }
+  
+    return array
   }
 
-  const finalQuestionCountLength = Object.keys(finalFilteredQuestions).length
-  console.log(finalFilteredQuestions)
+  //Shuffle the array
+  const shuffledFlattenedArray = shuffle(flattenedArray)
 
-  //finalFilteredQuestions     <---- this will be the final object used to generate the exam
+  //pick the first elements from the array based on the user's number of questions selected
+  const filteredArrayByRequestedCount = shuffledFlattenedArray.slice(0, parseInt(selectedNumberOfQuestions))
+
+  //change the used and flagged properties to true before submission to server
+  const updateFlaggedAndUsedValues = filteredArrayByRequestedCount.map((question) => ({
+    ...question,
+    used: true,
+    flagged: true
+  }))
+  return updateFlaggedAndUsedValues
+ }
+
+  //send object to server with selected questions flagged
+  //server will update database with questions as flagged (eg, requesting use in upcoming exam) and used (eg, successfully used to create new exam)
+  //once the user is sent to new page where the exam has started, another API request will be sent to retrieve the flagged questions which can be used for the exam (once on the front end a second API call will be made to unflag the questions so that if a new exam is made these questions won't show up again)
+  async function submitCreateExam(e) {
+    e.preventDefault()
+    if (parseInt(selectedNumberOfQuestions) <= 0) {
+      return 
+    }
+    const examSessionId = nanoid()
+    // generate random list based on subject and number of questions user selects
+    const filteredList = filterSelectedQuestions()
+    const timed = createExamForm.timedMode
+    const tutor = createExamForm.tutorMode
+
+    try {
+      const response = await prepareQuestions({
+        filteredList,
+        timed,
+        tutor
+      })
+
+      navigate(`/exam/${examSessionId}`)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  function handleSelectNumberOfQuestions(e) {
+    const stringedNumber = e.target.value
+    const number = parseInt(stringedNumber)
+
+    if (number > finalQuestionCountLength || number <= 0) {
+      return
+    }
+    setSelectedNumberOfQuestions(stringedNumber)
+  }
+
+  function updateMaximumQuestionCount() {
+    if (!createExamForm.anatomy && !createExamForm.microbiology && !createExamForm.biochemistry && !createExamForm.embryology && !createExamForm.immunology && !createExamForm.pathology && !createExamForm.physiology && !createExamForm.pharmacology) {
+      setSelectedNumberOfQuestions(0)
+    } else {
+      setFinalQuestionCountLength(Object.keys(filteredOrgansBySubjects).reduce((total, organSystem) => {
+        return total + filteredOrgansBySubjects[organSystem].length
+      }, 0))
+    }
+  }
+
+  //If unused and incorrect are not selected, remove all selections from the subjects component and don't allow user to input number of questions
+  function updateSelections() {
+    if (!createExamForm.unused && !createExamForm.incorrect) {
+          setFinalQuestionCountLength(0)
+          setCreateExamForm((prev) => ({
+            ...prev,
+            anatomy: false,
+            microbiology: false,
+            biochemistry: false,
+            embryology: false,
+            immunology: false,
+            pathology: false,
+            physiology: false,
+            pharmacology: false,
+          }))
+          setFilteredOrgansBySubjects({})
+          setSelectedSubjects([])
+      }
+  }
+
   return (
     <>
     <div className="bg-300 w-full pb-4">
@@ -163,7 +227,7 @@ export default function UserCreateExam() {
       </div>
       
       <div className="bg-100 mt-4 pb-4 min-h-[1000px]">
-        <form onSubmit={submitCreateExam}>
+        <form onSubmit={(e) => submitCreateExam(e)}>
           <TestMode/>
           <QuestionMode
             unusedQuestions={unusedQuestions}
@@ -179,16 +243,10 @@ export default function UserCreateExam() {
             unusedCountValue={unusedCountValue}
             onSubjectSelection={handleSubjectSelection}
           />
-          
-          <SelectOrgans
-            allOrgans={allOrgans}
-            filteredOrgansBySubjects={filteredOrgansBySubjects}
-            onOrganSelection={handleOrganSelection}
-            // organSystemCountRefs={organSystemCountRefs}
-
-          />
           <SelectNumberOfQuestions
             finalQuestionCountLength={finalQuestionCountLength}
+            handleSelectNumberOfQuestions={handleSelectNumberOfQuestions}
+            selectedNumberOfQuestions={selectedNumberOfQuestions}
           />
           <button className="ml-6 primary-btn">Create Exam</button>
         </form>

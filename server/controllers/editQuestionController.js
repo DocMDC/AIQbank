@@ -3,8 +3,6 @@ import ExamQuestionModel from "../models/ExamQuestions.js";
 const handleEditQuestion = async (req, res) => {
     const { questionId, subject, organSystem, vignette, choices, explanations, correctChoice } = req.body
 
-    console.log(questionId)
-
     if (!questionId || !subject || !organSystem || !vignette || !choices || !explanations || !correctChoice) {
         return res.status(400).json({ message: 'All pertinent question information is required' });
     }

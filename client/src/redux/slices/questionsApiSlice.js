@@ -34,6 +34,13 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
         filterQuestions: builder.query({
             query: () => "/filter-questions", 
         }),
+        prepareQuestions: builder.mutation({
+            query: questionInformation => ({
+                url: '/prepare-questions',
+                method: 'PATCH',
+                body: { ...questionInformation } 
+            })
+        }),
     })
 })
 
@@ -44,4 +51,5 @@ export const {
     useEditQuestionMutation,
     useDeleteQuestionMutation,
     useFilterQuestionsQuery,
+    usePrepareQuestionsMutation
 } = questionsApiSlice
