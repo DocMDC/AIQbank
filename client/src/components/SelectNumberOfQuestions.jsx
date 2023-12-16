@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {Context} from "../Context"            
 
-export default function SelectNumberOfQuestions() {
+export default function SelectNumberOfQuestions({finalQuestionCountLength}) {
     const {createExamForm, updateCreateExamForm} = useContext(Context)
 
   return (
@@ -16,7 +16,7 @@ export default function SelectNumberOfQuestions() {
             checked={createExamForm.numberOfQuestions}
             onChange={updateCreateExamForm}
             />
-            <p className="ml-4 text-sm">Maximum allowed based on your selection <span>(get number from database)</span></p>
+            <p className="ml-4 text-sm">Maximum allowed based on your selection <span>({finalQuestionCountLength})</span></p>
         </div>
     </div>
   )

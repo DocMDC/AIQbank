@@ -18,9 +18,13 @@ export default function SelectSubjects({ filteredSubjectsObj, incorrectCountValu
   return (
     <div className="h-[500px] border-b-2 border-400 p-6">
         <div className="mb-6 flex items-center">
-            {/* if the unused or incorrect modes are not selected gray out the label and input fields*/}
+
+            <h1 className={((!createExamForm.incorrect && !createExamForm.unused) || (createExamForm.incorrect && !incorrectCountValue > 0) || (createExamForm.unused && !unusedCountValue > 0)) ? styles.disabledLabelTitle : styles.enabledLabelTitle }>Subjects</h1>
+            
+            {/*
             <label htmlFor="allSubjects" className={((!createExamForm.incorrect && !createExamForm.unused) || (createExamForm.incorrect && !incorrectCountValue > 0) || (createExamForm.unused && !unusedCountValue > 0)) ? styles.disabledLabelTitle : styles.enabledLabelTitle }>Subjects</label>
-            <input 
+            
+             <input 
             id="allSubjects"
             name="allSubjects"
             type="checkbox" 
@@ -28,7 +32,7 @@ export default function SelectSubjects({ filteredSubjectsObj, incorrectCountValu
             checked={createExamForm.allSubjects}
             onChange={updateCreateExamForm}
             disabled={((!createExamForm.incorrect && !createExamForm.unused) || (createExamForm.incorrect && !incorrectCountValue > 0) || (createExamForm.unused && !unusedCountValue > 0)) ? true : false}
-            />
+            /> */}
         </div>
         
         <div className="flex">
