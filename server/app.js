@@ -6,7 +6,11 @@ import allRoutes from './routes/allRoutes.js';
 import cookieParser from 'cookie-parser';
 import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/dbConn.js'; 
-
+import verifyJWT from './middleware/verifyJWT.js';
+import { handleFilterQuestions } from "./controllers/filterQuestionsController.js"
+import { handlePrepareExam } from "./controllers/prepareExamController.js"
+import { handleGetExams } from "./controllers/getExamsController.js"
+import { handleResetAccount } from "./controllers/resetAccountController.js"
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -32,6 +36,12 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/v1', allRoutes);
+
+//Routes requiring user identification
+app.use('/api/v1/filter-questions', verifyJWT, handleFilterQuestions)
+app.use('/api/v1/prepare-questions', verifyJWT, handlePrepareExam)
+app.use('/api/v1/get-exams', verifyJWT, handleGetExams)
+app.use('/api/v1/reset-account', verifyJWT, handleResetAccount)
 
 // Errors
 app.use(errorHandler);

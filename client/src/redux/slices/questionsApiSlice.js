@@ -32,7 +32,10 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
             })
         }),
         filterQuestions: builder.query({
-            query: () => "/filter-questions", 
+            query: () => ({
+                url: `/filter-questions`,
+                method: 'GET',
+            })
         }),
         prepareQuestions: builder.mutation({
             query: questionInformation => ({

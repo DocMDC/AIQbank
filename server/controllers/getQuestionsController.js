@@ -1,4 +1,6 @@
 import ExamQuestionModel from "../models/ExamQuestions.js";
+import UserModel from '../models/User.js'
+
 
 const handleGetQuestions = async (req, res) => { 
     try {

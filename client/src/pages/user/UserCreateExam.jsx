@@ -8,12 +8,10 @@ import { nanoid } from "nanoid"
 import { useFilterQuestionsQuery, usePrepareQuestionsMutation } from "../../redux/slices/questionsApiSlice"
 import {Context} from "../../Context"
 
-
 export default function UserCreateExam() {
-
-  const { data: filteredQuestionData, error, isLoading } = useFilterQuestionsQuery()
-  const [prepareQuestions] = usePrepareQuestionsMutation()
   const navigate = useNavigate()
+  const { data: filteredQuestionData, error, isLoading, refetch } = useFilterQuestionsQuery()
+  const [prepareQuestions] = usePrepareQuestionsMutation()
   
   const { createExamForm, setCreateExamForm } = useContext(Context)
   const incorrectCountRef = useRef()
@@ -42,6 +40,10 @@ export default function UserCreateExam() {
   useEffect(() => {
     updateMaximumQuestionCount();
   }, [createExamForm])
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -179,7 +181,8 @@ export default function UserCreateExam() {
       const response = await prepareQuestions({
         filteredList,
         timed,
-        tutor
+        tutor,
+        examSessionId
       })
 
       navigate(`/exam/${examSessionId}`)
@@ -205,11 +208,16 @@ export default function UserCreateExam() {
         setSelectedNumberOfQuestions(0)
         return 0;
       }
-  
+      // return Object.keys(filteredOrgansBySubjects).reduce((total, organSystem) => {
+      //   return total + filteredOrgansBySubjects[organSystem].length;
+      // }, 0);
       return Object.keys(filteredOrgansBySubjects).reduce((total, organSystem) => {
-        return total + filteredOrgansBySubjects[organSystem].length;
-      }, 0);
-    });
+        const unusedQuestions = filteredOrgansBySubjects[organSystem].filter(
+          (question) => !question.used
+        )
+        return total + unusedQuestions.length;
+      }, 0)
+    })
   }
   
   //If unused and incorrect are not selected, remove all selections from the subjects component and don't allow user to input number of questions

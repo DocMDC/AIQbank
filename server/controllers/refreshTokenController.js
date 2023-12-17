@@ -2,7 +2,6 @@ import UserModel from '../models/User.js'
 import jwt from 'jsonwebtoken'
 
 const handleRefreshToken = async (req, res) => {
-    console.log('refreshing...')
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;

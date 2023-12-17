@@ -15,9 +15,10 @@ import { handleGetQuestionById } from "../controllers/getQuestionByIdController.
 import { handleEditQuestion } from "../controllers/editQuestionController.js"
 import { handleDeleteQuestion } from "../controllers/deleteQuestionController.js"
 import { handleFilterQuestions } from "../controllers/filterQuestionsController.js"
-import { handlePrepareQuestions } from "../controllers/prepareQuestionsController.js"
-import { handleResetAccount } from '../controllers/resetAccountController.js'
+// import { handlePrepareQuestions } from "../controllers/prepareQuestionsController.js"
+// import { handleResetAccount } from '../controllers/resetAccountController.js'
 import { handleGetExams } from "../controllers/getExamsController.js"
+//import verifyJWT from "../middleware/verifyJWT.js"
 import multer from 'multer'
 
 const fileStorageEngine = multer.diskStorage({
@@ -52,9 +53,9 @@ router.get('/get-questions', handleGetQuestions)
 router.get('/get-question/:id', handleGetQuestionById)
 router.patch('/edit-question', handleEditQuestion)
 router.delete('/delete-question/:id', handleDeleteQuestion)
-router.get('/filter-questions', handleFilterQuestions)
-router.patch('/prepare-questions', handlePrepareQuestions)
-router.patch('/reset-account', handleResetAccount)
-router.get('/get-exams', handleGetExams)
+// router.get('/filter-questions', handleFilterQuestions)
+//router.patch('/prepare-questions', handlePrepareQuestions)
+// router.patch('/reset-account', handleResetAccount)
+// router.get('/get-exams', handleGetExams)
 
 export default router; 

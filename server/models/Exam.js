@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-import { v4 as uuidv4 } from 'uuid';
 
 const examQuestionSchema = new Schema({
     documentType: {
@@ -73,7 +72,6 @@ const examSchema = new Schema({
     },
     uniqueId: {
         type: String,
-        default: uuidv4(),
         required: true,
     },
     numberOfQuestions: {

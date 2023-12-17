@@ -4,6 +4,8 @@ import ROLES_LIST from '../config/roles_list.js'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config();
+import ExamQuestionModel from "../models/ExamQuestions.js";
+
 
 const handleRegister = async (req, res) => {
     const { email, password } = req.body;
@@ -22,6 +24,13 @@ const handleRegister = async (req, res) => {
         // Encrypt password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Get question list from database and add to user's account
+        const questionsObj = await ExamQuestionModel.find().exec()
+
+        if (!questionsObj) {
+            return res.status(401).json({ message: 'No questions in database'})
+        }
+
         // Store new user in the database
         await UserModel.create({
             "email": email,
@@ -31,6 +40,7 @@ const handleRegister = async (req, res) => {
                 "Admin": ROLES_LIST.admin,
             },
             "password": hashedPassword,
+            "questions": questionsObj
         });
 
         // Verify user is in the database
