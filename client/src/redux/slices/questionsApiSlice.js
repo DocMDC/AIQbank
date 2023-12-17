@@ -41,6 +41,12 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
                 body: { ...questionInformation } 
             })
         }),
+        resetAccount: builder.mutation({
+            query: () => ({
+                url: '/reset-account',
+                method: 'PATCH',
+            })
+        }),
     })
 })
 
@@ -51,5 +57,6 @@ export const {
     useEditQuestionMutation,
     useDeleteQuestionMutation,
     useFilterQuestionsQuery,
-    usePrepareQuestionsMutation
+    usePrepareQuestionsMutation,
+    useResetAccountMutation
 } = questionsApiSlice

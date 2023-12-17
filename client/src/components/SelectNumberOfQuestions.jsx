@@ -13,7 +13,7 @@ export default function SelectNumberOfQuestions({finalQuestionCountLength, handl
             name="numberOfQuestions"
             type="number" 
             className="w-12 h-12 border border-800 text-center"
-            value={selectedNumberOfQuestions}
+            value={parseInt(selectedNumberOfQuestions) > finalQuestionCountLength ? 0 : selectedNumberOfQuestions}
             onChange={(e) => handleSelectNumberOfQuestions(e)}
             min={1}
             max={finalQuestionCountLength}

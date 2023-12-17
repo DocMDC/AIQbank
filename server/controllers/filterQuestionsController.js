@@ -4,10 +4,7 @@ const handleFilterQuestions = async (req, res) => {
     try {
         const unusedQuestions = await ExamQuestionModel.find({ used: "false"})
 
-        const incorrectQuestions = await ExamQuestionModel.find({ used: "true", answeredCorrectly: "false" })
-
-        // const flaggedQuestions = await ExamQuestionModel.find({ used: "true", flagged: "true" })
-
+        const incorrectQuestions = await ExamQuestionModel.find({ used: "true", answeredCorrectly: "false", hasAnswered: "true" })
 
         const anatomyQuestions = await ExamQuestionModel.find({ subject: "anatomy" })
         const microbiologyQuestions = await ExamQuestionModel.find({ subject: "microbiology" })
@@ -48,8 +45,6 @@ const handleFilterQuestions = async (req, res) => {
             neurology: neurologyQuestions,
             musculoskeletal: musculoskeletalQuestions
         }
-
-        
 
         res.json({ allSubjectsQuestions, allOrganSystemsQuestions, unusedQuestions, incorrectQuestions })
 

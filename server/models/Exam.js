@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
+import { v4 as uuidv4 } from 'uuid';
 
 const examQuestionSchema = new Schema({
     documentType: {
@@ -49,4 +50,44 @@ const examQuestionSchema = new Schema({
     }
 });
 
-export default mongoose.model('ExamQuestion', examQuestionSchema);
+const examSchema = new Schema({
+    documentType: {
+        type: String,
+        default: 'exam',
+        required: true,
+    },
+    mode: {
+        timed: {
+            type: Boolean,
+            required: true,
+        },
+        tutor: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+    uniqueId: {
+        type: String,
+        default: uuidv4(),
+        required: true,
+    },
+    numberOfQuestions: {
+        type: Number,
+        required: true,
+    },
+    listOfQuestions: {
+        type: [examQuestionSchema],
+        required: true,
+    },
+    score: {
+        type: Schema.Types.Mixed,
+        default: '-',
+    }
+});
+
+export default mongoose.model('Exam', examSchema);

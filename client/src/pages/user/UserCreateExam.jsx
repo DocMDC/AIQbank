@@ -58,6 +58,16 @@ export default function UserCreateExam() {
   //Reformat unused and incorrect question data from server so that it's in JSON format and can be easily passed down to the SelectSubjects component as props
   let unusedQuestionsBySubject = {}
   let incorrectQuestionsBySubject = {}
+  let defaultBySubject = {
+    "anatomy": [],
+    "microbiology": [],
+    "biochemistry": [],
+    "embryology": [],
+    "immunology": [],
+    "pathology": [],
+    "physiology": [],
+    "pharmacology": [],
+  }
 
   function filterUnusedAndIncorrectQuestions() {
     const subjects = [
@@ -143,13 +153,12 @@ export default function UserCreateExam() {
   //pick the first elements from the array based on the user's number of questions selected
   const filteredArrayByRequestedCount = shuffledFlattenedArray.slice(0, parseInt(selectedNumberOfQuestions))
 
-  //change the used and flagged properties to true before submission to server
-  const updateFlaggedAndUsedValues = filteredArrayByRequestedCount.map((question) => ({
+  //change the used value to true before submission to server
+  const updateUsedValue = filteredArrayByRequestedCount.map((question) => ({
     ...question,
     used: true,
-    flagged: true
   }))
-  return updateFlaggedAndUsedValues
+  return updateUsedValue
  }
 
   //send object to server with selected questions flagged
@@ -183,6 +192,7 @@ export default function UserCreateExam() {
     const stringedNumber = e.target.value
     const number = parseInt(stringedNumber)
 
+    //Don't let user select a number outside the bounds of available questions
     if (number > finalQuestionCountLength || number <= 0) {
       return
     }
@@ -190,19 +200,23 @@ export default function UserCreateExam() {
   }
 
   function updateMaximumQuestionCount() {
-    if (!createExamForm.anatomy && !createExamForm.microbiology && !createExamForm.biochemistry && !createExamForm.embryology && !createExamForm.immunology && !createExamForm.pathology && !createExamForm.physiology && !createExamForm.pharmacology) {
-      setSelectedNumberOfQuestions(0)
-    } else {
-      setFinalQuestionCountLength(Object.keys(filteredOrgansBySubjects).reduce((total, organSystem) => {
-        return total + filteredOrgansBySubjects[organSystem].length
-      }, 0))
-    }
+    setFinalQuestionCountLength((prev) => {
+      if (!createExamForm.anatomy && !createExamForm.microbiology && !createExamForm.biochemistry && !createExamForm.embryology && !createExamForm.immunology && !createExamForm.pathology && !createExamForm.physiology && !createExamForm.pharmacology) {
+        setSelectedNumberOfQuestions(0)
+        return 0;
+      }
+  
+      return Object.keys(filteredOrgansBySubjects).reduce((total, organSystem) => {
+        return total + filteredOrgansBySubjects[organSystem].length;
+      }, 0);
+    });
   }
-
+  
   //If unused and incorrect are not selected, remove all selections from the subjects component and don't allow user to input number of questions
   function updateSelections() {
     if (!createExamForm.unused && !createExamForm.incorrect) {
           setFinalQuestionCountLength(0)
+          setSelectedNumberOfQuestions(0)
           setCreateExamForm((prev) => ({
             ...prev,
             anatomy: false,
@@ -216,9 +230,10 @@ export default function UserCreateExam() {
           }))
           setFilteredOrgansBySubjects({})
           setSelectedSubjects([])
+          updateMaximumQuestionCount()
       }
   }
-
+  
   return (
     <>
     <div className="bg-300 w-full pb-4">
@@ -238,7 +253,13 @@ export default function UserCreateExam() {
             unusedCountValue={unusedCountValue}
           />
            <SelectSubjects
-            filteredSubjectsObj={createExamForm.unused ? unusedQuestionsBySubject : incorrectQuestionsBySubject}
+            filteredSubjectsObj={
+              createExamForm.unused
+                ? unusedQuestionsBySubject
+                : createExamForm.incorrect
+                ? incorrectQuestionsBySubject
+                : defaultBySubject
+            }
             incorrectCountValue={incorrectCountValue}
             unusedCountValue={unusedCountValue}
             onSubjectSelection={handleSubjectSelection}
