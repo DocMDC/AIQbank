@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react'
+import { useNavigate } from "react-router-dom"
 import { useGetExamsQuery } from '../../redux/slices/examsApiSlice'
 import { FaPlay } from "react-icons/fa";
 
 export default function UserExams() {
+  const navigate = useNavigate()
   const { data: examData, error, isLoading, refetch } = useGetExamsQuery()
 
   useEffect(() => {
@@ -17,8 +19,8 @@ export default function UserExams() {
     return <div>Error: {error.message}</div>
   }
 
-  function handleClickedExam() {
-    alert('Need to create logic for resuming exam')
+  function handleClickedExam(examId) {
+    navigate(`/exam/${examId}`)
   }
 
   return (
@@ -38,7 +40,7 @@ export default function UserExams() {
             <h6>#Q: <span className="text-blue-500">{exam.numberOfQuestions}</span></h6>
             <FaPlay 
               className="text-blue-500 text-2xl cursor-pointer hover:text-blue-600"
-              onClick={handleClickedExam}
+              onClick={() => handleClickedExam(exam.uniqueId)}
             />
           </div>
         ))

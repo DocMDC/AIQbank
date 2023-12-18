@@ -1,4 +1,3 @@
-import ExamQuestionModel from "../models/ExamQuestions.js";
 import ExamModel from "../models/Exam.js"
 import UserModel from '../models/User.js'
 
@@ -32,7 +31,7 @@ const handlePrepareExam = async (req, res) => {
         
         user.exams = newExam
 
-        // Iterate over user.questions and update the used property based on filteredList
+        // Iterate over user.questions and update the used property to true or false based on filteredList
         user.questions.forEach((userQuestion) => {
             const correspondingFilteredListQuestion = filteredList.find(filteredListQuestion => filteredListQuestion._id.toString() === userQuestion._id.toString());
             if (correspondingFilteredListQuestion) {

@@ -11,6 +11,7 @@ import { handleFilterQuestions } from "./controllers/filterQuestionsController.j
 import { handlePrepareExam } from "./controllers/prepareExamController.js"
 import { handleGetExams } from "./controllers/getExamsController.js"
 import { handleResetAccount } from "./controllers/resetAccountController.js"
+import { handleGetExam } from "./controllers/getExamController.js"
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -34,6 +35,8 @@ app.use(helmet());
 // Cookies
 app.use(cookieParser());
 
+//May need to implement refresh token / fix auth here before routes
+
 // Routes
 app.use('/api/v1', allRoutes);
 
@@ -42,6 +45,7 @@ app.use('/api/v1/filter-questions', verifyJWT, handleFilterQuestions)
 app.use('/api/v1/prepare-questions', verifyJWT, handlePrepareExam)
 app.use('/api/v1/get-exams', verifyJWT, handleGetExams)
 app.use('/api/v1/reset-account', verifyJWT, handleResetAccount)
+app.use('/api/v1/get-exam/:id', verifyJWT, handleGetExam)
 
 // Errors
 app.use(errorHandler);

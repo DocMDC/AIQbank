@@ -48,6 +48,7 @@ export default function App() {
           <Route path="forgot-password" element={<ForgotPassword/>}/>
         </Route>
 
+          {/* PersistLogin hits the "/refresh" endpoint which provides an access token*/}
           {/* student-specific private routes */}
         <Route element={<PersistLogin />}>
           <Route path="dashboard" element={<UserLayout/>}>
