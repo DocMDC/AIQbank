@@ -28,6 +28,7 @@ export default function StudentNav() {
   
     function toggleCreateExamModal() {
       dispatch(setExamNameModal(!examNameModalState))
+      setHamburgerIsClicked(false)
     }
 
   return (
@@ -51,17 +52,17 @@ export default function StudentNav() {
                     onClick={() => setHamburgerIsClicked(false)}
                     />
 
-                <Link to="create-exam" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                <Link to="create-exam" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <IoIosCreate className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Create Exam</li>
                 </Link>
 
-                <Link to="my-exams" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
+                <Link to="my-exams" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <MdQuiz className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">My Exams</li>
                 </Link>
 
-                <Link to="account" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
+                <Link to="account" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <MdOutlineManageAccounts className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Account</li>
                 </Link>

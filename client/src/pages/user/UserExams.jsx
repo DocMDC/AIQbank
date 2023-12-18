@@ -22,6 +22,7 @@ export default function UserExams() {
   function handleClickedExam(examId) {
     navigate(`/exam/${examId}`)
   }
+  console.log(examData)
 
   return (
     <div className="bg-300 w-full pb-4">

@@ -11,7 +11,7 @@ import {AiFillCloseCircle} from "react-icons/ai"
 import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 
-export default function ExamHeader() {
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex}) {
     const [markChecked, setMarkChecked] = useState(false)
     
     const navRef = useRef(null)
@@ -29,9 +29,9 @@ export default function ExamHeader() {
     }
 
     return (
-    <>
+    <div className="fixed top-0 left-20 right-0 h-14 p-2 bg-exam-secondary text-exam-white flex items-center">
         <div className="max-w-[110px] h-10 border-t-2 border-l-2 border-exam-boxShadow rounded-md flex items-center justify-center px-1">
-            <p className="text-xs">Item: <span>#</span> of <span>42</span>
+            <p className="text-xs">Item: <span>{questionIndex + 1}</span> of <span>42</span>
             </p>
         </div>
 
@@ -51,11 +51,11 @@ export default function ExamHeader() {
         </div>
 
         <div className="flex justify-center w-52 lg:w-[275px] xl:w-[375px] 2xl:w-[650px] mr-auto">
-            <div className="w-20 flex flex-col justify-center items-center cursor-pointer hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+            <div className="w-20 flex flex-col justify-center items-center cursor-pointer hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => decrementQuestionIndex()}>
                 <img src={previousArrow} alt="previous-arrow" className="w-8 h-8"/>
                 <p className="text-sm">Previous</p>
             </div>
-            <div className="w-20 flex flex-col justify-center items-center cursor-pointer hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+            <div className="w-20 flex flex-col justify-center items-center cursor-pointer hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => incrementQuestionIndex()}>
                 <img src={nextArrow} alt="next-arrow" className="w-8 h-8"/>
                 <p className="text-sm mr-1">Next</p>
             </div>
@@ -100,6 +100,6 @@ export default function ExamHeader() {
                 </div>
             </ul>
         </div>
-    </>
+    </div>
   )
 }

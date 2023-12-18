@@ -29,7 +29,7 @@ const handlePrepareExam = async (req, res) => {
             "uniqueId": examSessionId
         });
         
-        user.exams = newExam
+        user.exams.push(newExam)
 
         // Iterate over user.questions and update the used property to true or false based on filteredList
         user.questions.forEach((userQuestion) => {
