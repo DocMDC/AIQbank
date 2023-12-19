@@ -26,17 +26,12 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
         setHamburgerIsClicked(false)
     })
 
-    // function handleMarkChecked() {
-    //     setMarkChecked(!markChecked)
-    // }
-
     async function toggleFlag() {
         try {
             const response = await updateQuestionFlag({
                 examId: id,
                 questionIndex: questionIndex,
             })
-            console.log(response)
             setRefetchCount(refetchCount + 1)
         } catch (err) {
             console.log(err)
@@ -58,6 +53,7 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
                     id="mark"
                     checked={currentQuestion?.flagged || false}
                     className="cursor-pointer"
+                    onChange={() => {}}
                 />
                 <img src={flag} alt="flag" className="h-4 w-4"/>
                 <label htmlFor="mark" className="cursor-pointer">Mark</label>

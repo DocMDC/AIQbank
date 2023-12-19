@@ -64,6 +64,13 @@ export const examsApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    submitAnswer: builder.mutation({
+      query: (questionInformation) => ({
+        url: `/submit-answer`,
+        method: 'PATCH',
+        body: { ...questionInformation },
+      }),
+    }),
   }),
 });
 
@@ -71,7 +78,8 @@ export const {
   useGetExamsQuery,
   useGetExamQuery,
   useUpdateSelectionMutation,
-  useUpdateFlaggedQuestionsMutation
+  useUpdateFlaggedQuestionsMutation,
+  useSubmitAnswerMutation
 } = examsApiSlice;
 
 
