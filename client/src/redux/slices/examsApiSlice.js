@@ -38,11 +38,31 @@ export const examsApiSlice = apiSlice.injectEndpoints({
       },
     }),
     updateFlaggedQuestions: builder.mutation({
-        query: (questionInformation) => ({
-          url: `/update-flags`,
-          method: 'PATCH',
-          body: { ...questionInformation },
-        }),
+      query: (questionInformation) => ({
+        url: `/update-flags`,
+        method: 'PATCH',
+        body: { ...questionInformation },
+      }),
+
+      async onQueryStarted(questionInformation, { dispatch, queryFulfilled }) {
+        const { examId, questionIndex } = questionInformation;
+
+        // Optimistic update logic
+        const patchResult = dispatch(
+          examsApiSlice.util.updateQueryData('getExam', examId, (draft) => {
+            const currentExam = draft.exam[0];
+            if (currentExam && currentExam.listOfQuestions[questionIndex]) {
+              currentExam.listOfQuestions[questionIndex].flagged = !currentExam.listOfQuestions[questionIndex].flagged;
+            }
+          })
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
   }),
 });
@@ -51,6 +71,7 @@ export const {
   useGetExamsQuery,
   useGetExamQuery,
   useUpdateSelectionMutation,
+  useUpdateFlaggedQuestionsMutation
 } = examsApiSlice;
 
 

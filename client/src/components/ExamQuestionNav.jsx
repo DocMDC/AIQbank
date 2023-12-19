@@ -2,8 +2,7 @@ import React, {useState} from 'react'
 import flag from "../assets/blackFlag.png"
 import notePresent from "../assets/notePresent.png"
 
-export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQuestionIndex, selection}) {
-  const [flagged, setFlagged] = useState(false)
+export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQuestionIndex}) {
   const [noteAvailable, setNoteAvailable] = useState(false)
 
   function renderNavBackground(mapIndex) {
@@ -16,9 +15,6 @@ export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQ
     }
   }
 
-  console.log(listOfQuestions)
-  console.log(selection)
-
   return (
     <div className="w-20 h-full left-0 top-0 bottom-0 absolute flex flex-col bg-100 overflow-y-scroll text-exam-black border-r border-exam-primary">
       {listOfQuestions?.map((question, index) => (
@@ -26,21 +22,11 @@ export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQ
             <span className="w-1/3 flex items-center">{question.selection === null ? "•" : " "}</span>
             <span className="w-1/3 text-xl flex items-center">{index + 1}</span>
             <div className="w-1/3 flex items-center">
-              <img src={flag} alt="flag icon" className={flagged ? "h-5" : "hidden"} />
+              <img src={flag} alt="flag icon" className={question.flagged ? "h-5" : "hidden"} />
               <img src={notePresent} alt="note present" className={noteAvailable ? "h-5" : "hidden"} />
             </div>
           </div>
       ))}
     </div>
-    // <div className="w-20 h-full left-0 top-0 bottom-0 absolute flex flex-col bg-100 overflow-y-scroll text-exam-black border-r border-exam-primary">
-    //     <div className="flex p-2 cursor-pointer">
-    //       <span className="w-1/3 flex items-center">•</span>
-    //       <span className="w-1/3 text-xl flex items-center">1</span>
-    //       <div className="w-1/3 flex items-center">
-    //         <img src={flag} alt="flag icon" className={flagged ? "h-5" : "hidden"} />
-    //         <img src={notePresent} alt="note present" className={noteAvailable ? "h-5" : "hidden"} />
-    //       </div>
-    //     </div>
-    // </div>
   )
 }

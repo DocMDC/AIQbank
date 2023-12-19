@@ -13,6 +13,7 @@ import { handleGetExams } from "./controllers/getExamsController.js"
 import { handleResetAccount } from "./controllers/resetAccountController.js"
 import { handleGetExam } from "./controllers/getExamController.js"
 import { handleUpdateSelection } from "./controllers/updateSelectionController.js"
+import { handleUpdateFlaggedQuestions } from './controllers/updateFlaggedQuestionsController.js'
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -48,6 +49,7 @@ app.use('/api/v1/get-exams', verifyJWT, handleGetExams)
 app.use('/api/v1/reset-account', verifyJWT, handleResetAccount)
 app.use('/api/v1/get-exam/:id', verifyJWT, handleGetExam)
 app.use('/api/v1/update-selection', verifyJWT, handleUpdateSelection)
+app.use('/api/v1/update-flags', verifyJWT, handleUpdateFlaggedQuestions)
 
 // Errors
 app.use(errorHandler);

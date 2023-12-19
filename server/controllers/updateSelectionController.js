@@ -5,7 +5,7 @@ const handleUpdateSelection = async (req, res) => {
     const { examId, questionIndex, selectionByNumber } = req.body
     const userEmail = req.user
 
-    if (questionIndex === null || selectionByNumber === null || !examId === null) {
+    if (questionIndex === null || selectionByNumber === null || examId === null) {
         return res.status(400).json({ message: 'Required to send an object with all of the question information' });
     }
 

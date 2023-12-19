@@ -10,9 +10,11 @@ import {GiHamburgerMenu} from "react-icons/gi"
 import {AiFillCloseCircle} from "react-icons/ai"
 import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
+import { useUpdateFlaggedQuestionsMutation } from "../redux/slices/examsApiSlice"
 
-export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions}) {
-    const [markChecked, setMarkChecked] = useState(false)
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, refetchCount, setRefetchCount}) {
+    // const [markChecked, setMarkChecked] = useState(false)
+    const [updateQuestionFlag] = useUpdateFlaggedQuestionsMutation()
     
     const navRef = useRef(null)
     const hamburgerRef = useRef(null)
@@ -24,8 +26,21 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
         setHamburgerIsClicked(false)
     })
 
-    function handleMarkChecked() {
-        setMarkChecked(!markChecked)
+    // function handleMarkChecked() {
+    //     setMarkChecked(!markChecked)
+    // }
+
+    async function toggleFlag() {
+        try {
+            const response = await updateQuestionFlag({
+                examId: id,
+                questionIndex: questionIndex,
+            })
+            console.log(response)
+            setRefetchCount(refetchCount + 1)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -35,15 +50,14 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
             </p>
         </div>
 
-        <div className="w-30 h-full flex items-center px-2 ml-4 hover:bg-[#4783bd99] hover:rounded-md">
+        <div className="w-30 h-full flex items-center cursor-pointer px-2 ml-4 hover:bg-[#4783bd99] hover:rounded-md" onClick={toggleFlag}>
             <div className="flex items-center justify-center space-x-1">
                 <input 
                     type="checkbox"
                     name="mark"
                     id="mark"
-                    checked={markChecked}
+                    checked={currentQuestion?.flagged || false}
                     className="cursor-pointer"
-                    onChange={handleMarkChecked}
                 />
                 <img src={flag} alt="flag" className="h-4 w-4"/>
                 <label htmlFor="mark" className="cursor-pointer">Mark</label>
