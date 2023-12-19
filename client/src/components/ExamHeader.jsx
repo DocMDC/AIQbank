@@ -11,7 +11,7 @@ import {AiFillCloseCircle} from "react-icons/ai"
 import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 
-export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex}) {
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions}) {
     const [markChecked, setMarkChecked] = useState(false)
     
     const navRef = useRef(null)
@@ -31,7 +31,7 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
     return (
     <div className="fixed top-0 left-20 right-0 h-14 p-2 bg-exam-secondary text-exam-white flex items-center">
         <div className="max-w-[110px] h-10 border-t-2 border-l-2 border-exam-boxShadow rounded-md flex items-center justify-center px-1">
-            <p className="text-xs">Item: <span>{questionIndex + 1}</span> of <span>42</span>
+            <p className="text-xs">Item: <span>{questionIndex + 1}</span> of <span>{listOfQuestions.length}</span>
             </p>
         </div>
 

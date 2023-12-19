@@ -8,7 +8,6 @@ const handleGetExam = async (req, res) => {
         return res.status(400).json({ 'message': 'id is required' })
     }
 
-    // Find question in database
     try {
 
         // Find user in database

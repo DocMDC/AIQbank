@@ -46,7 +46,18 @@ const examQuestionSchema = new Schema({
     flagged: {
         type: Boolean,
         default: false,
-    }
+    },
+    hasNote: {
+        type: Boolean,
+        default: false,
+    },
+    note: {
+        type: String,
+    },
+    selection: {
+        type: Number,
+        default: null,
+    },
 });
 
 const examSchema = new Schema({
