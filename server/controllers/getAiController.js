@@ -3,7 +3,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const getAi = async (req, res) => {
-    const { message } = req.body;
+    const { message, vignette, choices, explanations, correctChoice } = req.body;
+
+    const questionWithPromptEngineering = `You are an expert in medical education and assist medical students in taking exams. Here is the vignette associated with the current question the student is working on: ${vignette} Here are the choices: ${choices} Here are the explanations for each choice: ${explanations} Here is the correct choice: ${correctChoice}. With this context, please answer the student's question to the best of your ability. Here is the student's question for you: ${message}`
+
     const options = {
         method: 'POST',
         headers: {
@@ -12,7 +15,7 @@ const getAi = async (req, res) => {
         },
         body: JSON.stringify({
             model: "gpt-4", //"gpt-3.5-turbo",
-            messages: [{ role: "user", content: message }],
+            messages: [{ role: "assistant", content: questionWithPromptEngineering }],
             // max_tokens: 100
         })
     };

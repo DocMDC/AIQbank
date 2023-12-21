@@ -20,6 +20,10 @@ export default function ExamNotes({isNotesOpen, setIsNotesOpen, currentQuestion,
     async function handleUpdateCurrentNote(e) {
         e.preventDefault()
 
+        if (questionNoteText[questionIndex] === '') {
+            return
+        }
+
         try {
             await updateNote({
                 noteText: questionNoteText[questionIndex],
@@ -52,11 +56,11 @@ export default function ExamNotes({isNotesOpen, setIsNotesOpen, currentQuestion,
             console.log(err)
         }
     }
-
+    
   return (
     <>
         {isNotesOpen &&
-            <div className="fixed top-20 right-14 overflow-y-scroll bg-300 shadow-md h-96 w-80 border border-exam-secondary z-50">
+            <div className="fixed top-20 right-14 overflow-y-scroll bg-300 shadow-md h-96 w-80 border border-exam-secondary z-40">
                 <AiFillCloseCircle className="absolute top-2 right-2 text-xl cursor-pointer hover:text-exam-secondary" onClick={() => setIsNotesOpen(!isNotesOpen)}/>
                 <h1 className="text-lg text-center border-b border-black py-2">Question Notes</h1>
                 <div className="flex flex-col m-4">

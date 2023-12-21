@@ -6,13 +6,13 @@ import lab from "../assets/lab.png"
 import notes from "../assets/notes.png"
 import calculator from "../assets/calculator.png"
 import reverseColor from "../assets/reverseColor.png"
-import {GiHamburgerMenu} from "react-icons/gi"
+import {GiHamburgerMenu, GiArtificialIntelligence} from "react-icons/gi"
 import {AiFillCloseCircle} from "react-icons/ai"
 import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 import { useUpdateFlaggedQuestionsMutation } from "../redux/slices/examsApiSlice"
 
-export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen}) {
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen, isAiOpen, setIsAiOpen}) {
     const [updateQuestionFlag] = useUpdateFlaggedQuestionsMutation()
     
     const navRef = useRef(null)
@@ -87,24 +87,29 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
                 />
 
                 <div className="flex items-center justify-between w-full">
-                    <div className="flex flex-col items-center justify-center cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsLabValuesOpen(!isLabValuesOpen)}>
+                    <div className="flex flex-col items-center justify-between cursor-pointer mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsLabValuesOpen(!isLabValuesOpen)}>
                         <img src={lab} alt="lab icon" className="h-6" />
                         <p className="text-sm">Lab Values</p>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center  cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsNotesOpen(!isNotesOpen)}>
+                    <div className="flex flex-col items-center justify-between  cursor-pointer mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsNotesOpen(!isNotesOpen)}>
                         <img src={notes} alt="lab icon" className="h-6" />
                         <p className="text-sm">Notes</p>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center  cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+                    <div className="flex flex-col items-center justify-between  cursor-pointer mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
                         <img src={calculator} alt="lab icon" className="h-6" />
                         <p className="text-sm">Calculator</p>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center  cursor-pointer p-1 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+                    <div className="flex flex-col items-center justify-between  cursor-pointer mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsAiOpen(!isAiOpen)}>
+                        <GiArtificialIntelligence className="w-6 h-6" />
+                        <p className="text-sm">Ask AI</p>
+                    </div>
+
+                    <div className="flex flex-col items-center justify-between cursor-pointer w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
                         <img src={reverseColor} alt="lab icon" className="h-6" />
-                        <p className="text-sm">Reverse Color</p>
+                        <p className="text-sm">Dark Mode</p>
                     </div>
                 </div>
             </ul>

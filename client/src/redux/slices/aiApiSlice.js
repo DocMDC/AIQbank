@@ -6,7 +6,7 @@ export const aiApiSlice = apiSlice.injectEndpoints({
             query: message => ({
                 url: '/ai',
                 method: 'POST',
-                body: {message} 
+                body: {...message} 
             })
         }),
     })

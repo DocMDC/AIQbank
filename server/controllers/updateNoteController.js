@@ -4,9 +4,10 @@ const handleUpdateNote = async (req, res) => {
     const { noteText, examId, questionIndex } = req.body
     const userEmail = req.user
     
-    if (questionIndex === null || examId === null || noteText === null) {
+    if (questionIndex === null || examId === null || noteText === '') {
         return res.status(400).json({ message: 'Required to send an object with all of the question information' });
     }
+
 
     if (!userEmail) {
         return res.status(400).json({ message: 'user email required' });

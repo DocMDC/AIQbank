@@ -6,6 +6,7 @@ import ExamMainContent from "../../components/ExamMainContent"
 import ExamFooter from "../../components/ExamFooter"
 import ExamLabValues from "../../components/ExamLabValues"
 import ExamNotes from "../../components/ExamNotes"
+import ExamAi from "../../components/ExamAi"
 import { useGetExamQuery } from '../../redux/slices/examsApiSlice'
 import { useSubmitExamMutation } from "../../redux/slices/examsApiSlice"
 
@@ -21,6 +22,9 @@ export default function UserExamInSession() {
   const [endExamModalState, setEndExamModalState] = useState(false)
   const [isLabValuesOpen, setIsLabValuesOpen] = useState(false)
   const [isNotesOpen, setIsNotesOpen] = useState(false)
+  const [isAiOpen, setIsAiOpen] = useState(false)
+  const [AIQuestion, setAIQuestion] = useState('')
+  const [AIAnswer, setAIAnswer] = useState('')
 
   useEffect(() => {
     refetch()
@@ -47,6 +51,9 @@ export default function UserExamInSession() {
     } else {
       setQuestionIndex(questionIndex + 1)
       setIsNotesOpen(false)
+      setIsAiOpen(false)
+      setAIQuestion('')
+      setAIAnswer('')
     }
   }
 
@@ -54,15 +61,24 @@ export default function UserExamInSession() {
     if (questionIndex <= 0) {
       setQuestionIndex(listOfQuestions.length - 1)
       setIsNotesOpen(false)
+      setIsAiOpen(false)
+      setAIQuestion('')
+      setAIAnswer('')
     } else {
       setQuestionIndex(questionIndex - 1)
       setIsNotesOpen(false)
+      setIsAiOpen(false)
+      setAIQuestion('')
+      setAIAnswer('')
     }
   }
 
   function modifyQuestionIndex(mappedIndex) {
     setQuestionIndex(mappedIndex)
     setIsNotesOpen(false)
+    setIsAiOpen(false)
+    setAIQuestion('')
+    setAIAnswer('')
   }
 
   function handleSuspendExam() {
@@ -108,6 +124,8 @@ export default function UserExamInSession() {
           setIsLabValuesOpen={setIsLabValuesOpen}
           setIsNotesOpen={setIsNotesOpen}
           isNotesOpen={isNotesOpen}
+          setIsAiOpen={setIsAiOpen}
+          isAiOpen={isAiOpen}
         />
         <ExamQuestionNav
           listOfQuestions={listOfQuestions}
@@ -124,6 +142,10 @@ export default function UserExamInSession() {
           mode={mode}
           incrementQuestionIndex={incrementQuestionIndex}
         />
+        <ExamLabValues 
+          isLabValuesOpen={isLabValuesOpen}
+          setIsLabValuesOpen={setIsLabValuesOpen}
+        />
         <ExamNotes
           setIsNotesOpen={setIsNotesOpen}
           isNotesOpen={isNotesOpen}
@@ -132,9 +154,14 @@ export default function UserExamInSession() {
           id={id}
           questionIndex={questionIndex}
         />
-        <ExamLabValues 
-          isLabValuesOpen={isLabValuesOpen}
-          setIsLabValuesOpen={setIsLabValuesOpen}
+        <ExamAi
+          setIsAiOpen={setIsAiOpen}
+          isAiOpen={isAiOpen}
+          currentQuestion={currentQuestion}
+          AIQuestion={AIQuestion}
+          setAIQuestion={setAIQuestion}
+          AIAnswer={AIAnswer}
+          setAIAnswer={setAIAnswer}
         />
         <ExamFooter
           handleSuspendExam={handleSuspendExam}
