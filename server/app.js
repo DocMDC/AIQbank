@@ -15,6 +15,7 @@ import { handleGetExam } from "./controllers/getExamController.js"
 import { handleUpdateSelection } from "./controllers/updateSelectionController.js"
 import { handleUpdateFlaggedQuestions } from './controllers/updateFlaggedQuestionsController.js'
 import { handleSubmitAnswer } from "./controllers/submitAnswerController.js"
+import { handleSubmitExam } from "./controllers/submitExamController.js"
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -52,6 +53,7 @@ app.use('/api/v1/get-exam/:id', verifyJWT, handleGetExam)
 app.use('/api/v1/update-selection', verifyJWT, handleUpdateSelection)
 app.use('/api/v1/update-flags', verifyJWT, handleUpdateFlaggedQuestions)
 app.use('/api/v1/submit-answer', verifyJWT, handleSubmitAnswer)
+app.use('/api/v1/submit-exam', verifyJWT, handleSubmitExam)
 
 
 // Errors

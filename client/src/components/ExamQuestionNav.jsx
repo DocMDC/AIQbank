@@ -19,7 +19,7 @@ export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQ
     <div className="w-20 h-full left-0 top-0 bottom-0 absolute flex flex-col bg-100 overflow-y-scroll text-exam-black border-r border-exam-primary">
       {listOfQuestions?.map((question, index) => (
           <div className={renderNavBackground(index)} key={index} onClick={() => modifyQuestionIndex(index)}>
-            <span className="w-1/3 flex items-center">{question.selection === null ? "•" : " "}</span>
+            <span className="w-1/3 flex items-center">{(question.selection === null && !question.hasAnswered) ? "•" : " "}</span>
             <span className="w-1/3 text-xl flex items-center">{index + 1}</span>
             <div className="w-1/3 flex items-center">
               <img src={flag} alt="flag icon" className={question.flagged ? "h-5" : "hidden"} />

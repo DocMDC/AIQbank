@@ -11,8 +11,8 @@ import { MdQuiz } from "react-icons/md"
 import { MdOutlineManageAccounts } from "react-icons/md"
 import { MdOutlineAddCircle } from "react-icons/md";
 
-import { setExamNameModal, selectExamNameModal } from '../redux/slices/modalSlice'
-import { useDispatch, useSelector } from 'react-redux'
+// import { setExamNameModal, selectExamNameModal } from '../redux/slices/modalSlice'
+// import { useDispatch, useSelector } from 'react-redux'
 
 export default function AdminNav() {
     const logout = useLogout()
@@ -26,12 +26,12 @@ export default function AdminNav() {
         setHamburgerIsClicked(false)
     })
 
-    const dispatch = useDispatch()
-    const examNameModalState = useSelector(selectExamNameModal) 
+    // const dispatch = useDispatch()
+    // const examNameModalState = useSelector(selectExamNameModal) 
   
-    function toggleCreateExamModal() {
-      dispatch(setExamNameModal(!examNameModalState))
-    }
+    // function toggleCreateExamModal() {
+    //   dispatch(setExamNameModal(!examNameModalState))
+    // }
 
   return (
     <>
@@ -54,27 +54,27 @@ export default function AdminNav() {
                     onClick={() => setHamburgerIsClicked(false)}
                 />
 
-                <Link to="add-questions" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                <Link to="add-questions" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <MdOutlineAddCircle className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Add Question</li>
                 </Link>
 
-                <Link to="edit-questions" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                <Link to="edit-questions" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <LuShieldQuestion className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Edit Question</li>
                 </Link>
 
-                <Link to="/dashboard/create-exam" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={toggleCreateExamModal}>
+                <Link to="/dashboard/create-exam" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <IoIosCreate className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Create Exam</li>
                 </Link>
 
-                <Link to="/dashboard/my-exams" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
+                <Link to="/dashboard/my-exams" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <MdQuiz className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">My Exams</li>
                 </Link>
 
-                <Link to="/dashboard/account" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl">
+                <Link to="/dashboard/account" className="md:flex md:items-center md:space-x-4 md:px-4 md:hover:bg-600 md:h-12 md:text-xl" onClick={() => setHamburgerIsClicked(false)}>
                     <MdOutlineManageAccounts className="hidden md:block md:text-200 md:text-lg"/>
                     <li className="hover:text-600 transition ease-in-out delay-75 md:hover:text-200">Account</li>
                 </Link>

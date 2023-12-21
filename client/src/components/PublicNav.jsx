@@ -5,7 +5,6 @@ import {AiFillCloseCircle} from "react-icons/ai"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 import useClickOutNav from "../hooks/useClickOutNav"
 
-
 export default function PublicNav() {
 
     const dropDownRef = useRef(null)

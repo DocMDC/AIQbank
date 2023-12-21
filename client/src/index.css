@@ -4,13 +4,13 @@
 
 @layer components {
     .primary-btn {
-        @apply mx-auto w-56 flex items-center justify-center bg-public-400 rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-100 hover:bg-public-300
+        @apply mx-auto w-56 flex items-center justify-center bg-public-400 rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-75 hover:bg-public-300
     }
 }
 
 @layer components {
     .secondary-btn {
-        @apply mx-auto w-56 flex items-center justify-center bg-public-200 rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-100 hover:bg-public-300
+        @apply mx-auto w-56 flex items-center justify-center bg-public-200 rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-75 hover:bg-public-300
     }
 }
 

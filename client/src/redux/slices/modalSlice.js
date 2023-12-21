@@ -3,15 +3,15 @@ import { createSlice } from "@reduxjs/toolkit"
 const modalSlice = createSlice({
     name: 'modal',
     initialState: { 
-        examName: false, 
+        endExamModal: false, 
     },
     reducers: {
-        setExamNameModal: (state, action) => {
-            state.examName = action.payload;
+        setEndExamModal: (state, action) => {
+            state.endExamModal = action.payload;
         },
     },
 });
 
-export const { setExamNameModal } = modalSlice.actions
+export const { setEndExamModal } = modalSlice.actions
 export default modalSlice.reducer
-export const selectExamNameModal = (state) => state.modal.examName
+export const selectEndExamModal = (state) => state.modal.endExamModal

@@ -8,10 +8,10 @@ import { useLogout } from "../hooks/useLogout"
 import { IoIosCreate } from 'react-icons/io'
 import { MdQuiz } from "react-icons/md"
 import { MdOutlineManageAccounts } from "react-icons/md"
-import { setExamNameModal, selectExamNameModal } from '../redux/slices/modalSlice'
-import { useDispatch, useSelector } from 'react-redux'
+// import { setExamNameModal, selectExamNameModal } from '../redux/slices/modalSlice'
+// import { useDispatch, useSelector } from 'react-redux'
 
-export default function StudentNav() {
+export default function UserNav() {
     const logout = useLogout()
     const dropDownRef = useRef(null)
     const hamburgerRef = useRef(null)
@@ -23,13 +23,13 @@ export default function StudentNav() {
         setHamburgerIsClicked(false)
     })
 
-    const dispatch = useDispatch()
-    const examNameModalState = useSelector(selectExamNameModal) 
+    // const dispatch = useDispatch()
+    // const examNameModalState = useSelector(selectExamNameModal) 
   
-    function toggleCreateExamModal() {
-      dispatch(setExamNameModal(!examNameModalState))
-      setHamburgerIsClicked(false)
-    }
+    // function toggleCreateExamModal() {
+    //   dispatch(setExamNameModal(!examNameModalState))
+    //   setHamburgerIsClicked(false)
+    // }
 
   return (
     <>

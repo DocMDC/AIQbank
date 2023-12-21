@@ -71,6 +71,13 @@ export const examsApiSlice = apiSlice.injectEndpoints({
         body: { ...questionInformation },
       }),
     }),
+    submitExam: builder.mutation({
+      query: (examInformation) => ({
+        url: `/submit-exam`,
+        method: 'PATCH',
+        body: { ...examInformation },
+      }),
+    }),
   }),
 });
 
@@ -79,40 +86,6 @@ export const {
   useGetExamQuery,
   useUpdateSelectionMutation,
   useUpdateFlaggedQuestionsMutation,
-  useSubmitAnswerMutation
+  useSubmitAnswerMutation,
+  useSubmitExamMutation
 } = examsApiSlice;
-
-
-
-/*
-import { apiSlice } from "../api/apiSlice";
-
-export const examsApiSlice = apiSlice.injectEndpoints({
-    endpoints: builder => ({
-        getExams: builder.query({
-            query: () => "/get-exams", 
-        }),
-        getExam: builder.query({
-            query: (id) => ({
-                url: `/get-exam/${id}`,
-                method: 'GET',
-            })
-        }),
-        updateSelection: builder.mutation({
-            query: (questionInformation) => ({
-                url: `/update-selection`,
-                method: 'PATCH',
-                body: { ...questionInformation}
-            })
-        }),
-    })
-})
-
-export const {
-    useGetExamsQuery,
-    useGetExamQuery,
-    useUpdateSelectionMutation,
-} = examsApiSlice
-
-*/
-

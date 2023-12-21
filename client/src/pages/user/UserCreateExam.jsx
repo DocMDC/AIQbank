@@ -163,9 +163,6 @@ export default function UserCreateExam() {
   return updateUsedValue
  }
 
-  //send object to server with selected questions flagged
-  //server will update database with questions as flagged (eg, requesting use in upcoming exam) and used (eg, successfully used to create new exam)
-  //once the user is sent to new page where the exam has started, another API request will be sent to retrieve the flagged questions which can be used for the exam (once on the front end a second API call will be made to unflag the questions so that if a new exam is made these questions won't show up again)
   async function submitCreateExam(e) {
     e.preventDefault()
     if (parseInt(selectedNumberOfQuestions) <= 0) {

@@ -4,7 +4,6 @@ import UserModel from '../models/User.js'
 
 const handleResetAccount = async (req, res) => {
     const userEmail = req.user
-    console.log(userEmail)
 
     try {
         // Find user in database
@@ -13,18 +12,6 @@ const handleResetAccount = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }
-
-        //Remove user exams
-        //Update questions so that the used, hasAnswered, answeredCorrectly, and flagged values are set back to false
-
-        /*
-        old code:
-
-        await ExamModel.deleteMany( {documentType: 'exam'})
-
-        await ExamQuestionModel.updateMany( {documentType: 'question'}, { $set: { used: false, hasAnswered: false, answeredCorrectly: false, flagged: false } })
-
-        */
 
         // Remove user exams
         user.exams = []
@@ -35,6 +22,9 @@ const handleResetAccount = async (req, res) => {
             question.hasAnswered = false
             question.answeredCorrectly = false
             question.flagged = false
+            question.note = ""
+            question.hasNote = false
+            question.selection = null
         })
 
         await user.save()

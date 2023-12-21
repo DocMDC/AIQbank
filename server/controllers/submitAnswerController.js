@@ -4,7 +4,7 @@ const handleSubmitAnswer = async (req, res) => {
     const { examId, questionIndex, selectionNumber } = req.body
     const userEmail = req.user
     
-    if (questionIndex === null || examId === null || selectionNumber === null) {
+    if (questionIndex === null || examId === null) {
         return res.status(400).json({ message: 'Required to send an object with all of the question information' });
     }
 
@@ -33,7 +33,7 @@ const handleSubmitAnswer = async (req, res) => {
 
         //If what the user selected is the desginated correct choice then update question with answeredCorrectly to true; else false
         //Must add one to selectionNumber because this was built using array nomenclature and the correctChoice is not 0 indexed (starts with 1)
-        if (currentExam.listOfQuestions[questionIndex].correctChoice === selectionNumber + 1) {
+        if (currentExam.listOfQuestions[questionIndex].correctChoice === selectionNumber) {
             currentExam.listOfQuestions[questionIndex].answeredCorrectly = true
         } else {
             currentExam.listOfQuestions[questionIndex].answeredCorrectly = false

@@ -1,14 +1,9 @@
 //TODOS:
-//Need to update the logic so that if show answer is submitted and a choice is not made, the default is maybe 7 or something so the user gets it wrong automatically 
-//Tutor and timed vs untimed mode
-//Lock
-//End block (finalize exam)
 //Lab values
 //Notes
 //Calculator
 //Reverse color
-//Scoring
-//Timer
+//AI chat
 //Dashboard home page
 //Front-end polish
 
@@ -17,16 +12,18 @@ import {useUpdateSelectionMutation, useSubmitAnswerMutation} from "../redux/slic
 import { IoPersonCircleOutline } from "react-icons/io5"
 import { FaRegCalendarAlt } from "react-icons/fa"
 
-export default function ExamMainContent({currentQuestion, questionIndex, id, selection, refetchCount, setRefetchCount}) {
+export default function ExamMainContent({currentQuestion, questionIndex, id, selection, refetchCount, setRefetchCount, mode, incrementQuestionIndex}) {
   const [updateSelection] = useUpdateSelectionMutation()
   const [submitAnswer] = useSubmitAnswerMutation()
 
   async function sendSelectionUpdate(choiceIndex) {
+    if (currentQuestion?.hasAnswered) return
+
     try {
       await updateSelection({
         examId: id,
         questionIndex: questionIndex,
-        selectionByNumber: choiceIndex
+        selectionByNumber: choiceIndex + 1
       })
       setRefetchCount(refetchCount + 1)
     } catch (err) {
@@ -36,11 +33,14 @@ export default function ExamMainContent({currentQuestion, questionIndex, id, sel
 
   async function handleSubmitAnswer(e) {
     e.preventDefault()
+
+    if (currentQuestion?.hasAnswered) return
+    
     try {
       await submitAnswer({
         examId: id,
         questionIndex: questionIndex,
-        selectionNumber: selection,
+        selectionNumber: selection || null,
       })
       setRefetchCount(refetchCount + 1)
     } catch (err) {
@@ -59,7 +59,7 @@ function renderLetters(index) {
         <p className="lg:mr-20 lg:max-w-[700px]">{currentQuestion?.vignette}</p>
       </div>
       
-      <form onSubmit={(e) => handleSubmitAnswer(e)} className="mt-10 ml-8 min-w-64 border border-exam-secondary inline-block text-left p-2 shadow-md border-b-8 mb-8">
+      <form onSubmit={(e) => handleSubmitAnswer(e)} className="mt-10 mx-8 min-w-64 border border-exam-secondary inline-block text-left p-2 shadow-md border-b-8 mb-8">
         {currentQuestion?.choices?.map((choice, index) => (
           <div className="flex items-center cursor-pointer p-1 hover:bg-gray-300 hover:rounded-md" key={index}>
             <input
@@ -67,7 +67,7 @@ function renderLetters(index) {
               type="radio"
               className="mr-2"
               value={`${renderLetters(index)}. ${choice}`}
-              checked={index === selection}
+              checked={index + 1 === selection}
               onChange={() => {
                 sendSelectionUpdate(index)
               }}
@@ -77,8 +77,16 @@ function renderLetters(index) {
             </label>
           </div>
         ))}
-        <button className="border-2 border-black text-center py-1 px-5 mt-4 rounded-md bg-gradient-to-t from-[#D3D3D3] via-transparent to-exam-white font-bold hover:bg-gradient-to-t hover:from-exam-white hover:via-transparent hover:to-[#D3D3D3]">Show Answer</button>
+        {mode?.tutor &&
+          <button className="border-2 border-black text-center py-1 px-5 mt-4 rounded-md bg-gradient-to-t from-[#D3D3D3] via-transparent to-exam-white font-bold hover:bg-gradient-to-t hover:from-exam-white hover:via-transparent hover:to-[#D3D3D3]">Show Answer</button>
+        }
       </form>
+
+      {!mode?.tutor &&
+        <div className="max-w-[1200px] text-center flex items-center justify-center h-24">
+          <button className="bg-exam-secondary py-2 px-8 text-100 rounded-md crusor-pointer hover:bg-[#4783bd99]" onClick={(e) => incrementQuestionIndex()}>Proceed To Next Item</button>
+        </div>
+      }
       
       {currentQuestion?.hasAnswered &&
       <>
@@ -92,7 +100,7 @@ function renderLetters(index) {
           <div className="flex flex-col h-24 justify-center">
             <IoPersonCircleOutline className="text-xl"/>
             <p className="text-exam-gray">Your answer:</p>
-            <p className="text-exam-gray">{renderLetters(currentQuestion?.selection)}</p>
+            <p className="text-exam-gray">{currentQuestion?.selection === null ? "N/A" : renderLetters(currentQuestion?.selection - 1)}</p>
           </div>
 
           <div className="flex flex-col h-24 justify-center">
@@ -111,7 +119,7 @@ function renderLetters(index) {
           ))}
         </div>
 
-        <div className="max-w-[800px] border-t-2 border-gray-300 mx-10 flex px-24 pt-4 mb-10">
+        <div className="max-w-[800px] border-t-2 border-gray-300 mx-10 flex px-12 pt-4 mb-10 md:px-24">
           <div className="flex flex-col mr-auto">
             <h6 className="font-bold">{(currentQuestion?.subject).toUpperCase()}</h6>
             <p className="text-exam-gray">Subject</p>
@@ -122,7 +130,7 @@ function renderLetters(index) {
           </div>
         </div>
 
-        <div className="max-w-[800px] mb-10">
+        <div className="max-w-[800px] mb-10 mx-10">
           <h6 className="text-xs text-exam-gray text-center">Copyright © Edge Up Learning. All rights reserved.</h6>
         </div>
       </>

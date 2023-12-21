@@ -12,7 +12,7 @@ import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 import { useUpdateFlaggedQuestionsMutation } from "../redux/slices/examsApiSlice"
 
-export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, refetchCount, setRefetchCount}) {
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, refetchCount, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen}) {
     // const [markChecked, setMarkChecked] = useState(false)
     const [updateQuestionFlag] = useUpdateFlaggedQuestionsMutation()
     
@@ -88,12 +88,12 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
                 />
 
                 <div className="flex items-center justify-between w-full">
-                    <div className="flex flex-col items-center justify-center cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+                    <div className="flex flex-col items-center justify-center cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsLabValuesOpen(!isLabValuesOpen)}>
                         <img src={lab} alt="lab icon" className="h-6" />
                         <p className="text-sm">Lab Values</p>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center  cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+                    <div className="flex flex-col items-center justify-center  cursor-pointer p-1 mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsNotesOpen(!isNotesOpen)}>
                         <img src={notes} alt="lab icon" className="h-6" />
                         <p className="text-sm">Notes</p>
                     </div>

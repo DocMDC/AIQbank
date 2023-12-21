@@ -4,14 +4,23 @@ import ExamHeader from "../../components/ExamHeader"
 import ExamQuestionNav from "../../components/ExamQuestionNav"
 import ExamMainContent from "../../components/ExamMainContent"
 import ExamFooter from "../../components/ExamFooter"
+import ExamLabValues from "../../components/ExamLabValues"
+import ExamNotes from "../../components/ExamNotes"
 import { useGetExamQuery } from '../../redux/slices/examsApiSlice'
+import { useSubmitExamMutation } from "../../redux/slices/examsApiSlice"
+
+import EndExamModal from "../../components/EndExamModal"
 
 export default function UserExamInSession() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { data: examData, error, isLoading, refetch } = useGetExamQuery(id)
+  const [submitExam] = useSubmitExamMutation()
   const [questionIndex, setQuestionIndex] = useState(0)
   const [refetchCount, setRefetchCount] = useState(0)
+  const [endExamModalState, setEndExamModalState] = useState(false)
+  const [isLabValuesOpen, setIsLabValuesOpen] = useState(false)
+  const [isNotesOpen, setIsNotesOpen] = useState(false)
 
   useEffect(() => {
     refetch()
@@ -28,6 +37,8 @@ export default function UserExamInSession() {
   const currentQuestion = examData?.exam[0]?.listOfQuestions[questionIndex]
   const listOfQuestions = examData?.exam[0]?.listOfQuestions
   const selection = examData?.exam[0]?.listOfQuestions[questionIndex]?.selection
+  const mode = examData?.exam[0]?.mode
+  const score = examData?.exam[0]?.score
 
   function incrementQuestionIndex() {
     if (questionIndex >= listOfQuestions.length - 1) {
@@ -53,8 +64,33 @@ export default function UserExamInSession() {
     navigate("/dashboard/my-exams")
   }
 
+  async function handleSubmitExam(e) {
+    if (e) {
+      e.preventDefault()
+    }
+      try {
+          await submitExam({
+              examId: id,
+              examTime: 1
+          })
+          navigate('/dashboard/my-exams')
+      } catch (err) {
+          console.log(err)
+      }
+  }
+
+  const time = new Date()
+  time.setSeconds(time.getSeconds() + listOfQuestions.length * 90)
+  // time.setSeconds(time.getSeconds() + 2)
   return (
     <>
+        <EndExamModal
+          endExamModalState={endExamModalState}
+          setEndExamModalState={setEndExamModalState}
+          id={id}
+          listOfQuestions={listOfQuestions}
+          handleSubmitExam={handleSubmitExam}
+        />
         <ExamHeader 
           questionIndex={questionIndex}
           incrementQuestionIndex={incrementQuestionIndex}
@@ -64,6 +100,10 @@ export default function UserExamInSession() {
           currentQuestion={currentQuestion}
           refetchCount={refetchCount}
           setRefetchCount={setRefetchCount}
+          isLabValuesOpen={isLabValuesOpen}
+          setIsLabValuesOpen={setIsLabValuesOpen}
+          setIsNotesOpen={setIsNotesOpen}
+          isNotesOpen={isNotesOpen}
         />
         <ExamQuestionNav
           listOfQuestions={listOfQuestions}
@@ -78,9 +118,25 @@ export default function UserExamInSession() {
           selection={selection}
           refetchCount={refetchCount}
           setRefetchCount={setRefetchCount}
+          mode={mode}
+          incrementQuestionIndex={incrementQuestionIndex}
+        />
+        <ExamNotes
+          setIsNotesOpen={setIsNotesOpen}
+          isNotesOpen={isNotesOpen}
+        />
+        <ExamLabValues 
+          isLabValuesOpen={isLabValuesOpen}
+          setIsLabValuesOpen={setIsLabValuesOpen}
         />
         <ExamFooter
           handleSuspendExam={handleSuspendExam}
+          endExamModalState={endExamModalState}
+          setEndExamModalState={setEndExamModalState}
+          score={score}
+          handleSubmitExam={handleSubmitExam}
+          expiryTimestamp={time}
+          mode={mode}
         />
     </>
   )
