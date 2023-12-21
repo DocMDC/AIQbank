@@ -1,9 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import flag from "../assets/blackFlag.png"
 import notePresent from "../assets/notePresent.png"
 
 export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQuestionIndex}) {
-  const [noteAvailable, setNoteAvailable] = useState(false)
 
   function renderNavBackground(mapIndex) {
     if (mapIndex === questionIndex) {
@@ -23,7 +22,7 @@ export default function ExamQuestionNav({listOfQuestions, questionIndex, modifyQ
             <span className="w-1/3 text-xl flex items-center">{index + 1}</span>
             <div className="w-1/3 flex items-center">
               <img src={flag} alt="flag icon" className={question.flagged ? "h-5" : "hidden"} />
-              <img src={notePresent} alt="note present" className={noteAvailable ? "h-5" : "hidden"} />
+              <img src={notePresent} alt="note present" className={question.hasNote ? "h-5" : "hidden"} />
             </div>
           </div>
       ))}

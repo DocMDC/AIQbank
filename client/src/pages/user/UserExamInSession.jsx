@@ -43,21 +43,26 @@ export default function UserExamInSession() {
   function incrementQuestionIndex() {
     if (questionIndex >= listOfQuestions.length - 1) {
       setQuestionIndex(0)
+      setIsNotesOpen(false)
     } else {
       setQuestionIndex(questionIndex + 1)
+      setIsNotesOpen(false)
     }
   }
 
   function decrementQuestionIndex() {
     if (questionIndex <= 0) {
       setQuestionIndex(listOfQuestions.length - 1)
+      setIsNotesOpen(false)
     } else {
       setQuestionIndex(questionIndex - 1)
+      setIsNotesOpen(false)
     }
   }
 
   function modifyQuestionIndex(mappedIndex) {
     setQuestionIndex(mappedIndex)
+    setIsNotesOpen(false)
   }
 
   function handleSuspendExam() {
@@ -98,7 +103,6 @@ export default function UserExamInSession() {
           listOfQuestions={listOfQuestions}
           id={id}
           currentQuestion={currentQuestion}
-          refetchCount={refetchCount}
           setRefetchCount={setRefetchCount}
           isLabValuesOpen={isLabValuesOpen}
           setIsLabValuesOpen={setIsLabValuesOpen}
@@ -116,7 +120,6 @@ export default function UserExamInSession() {
           questionIndex={questionIndex}
           id={id}
           selection={selection}
-          refetchCount={refetchCount}
           setRefetchCount={setRefetchCount}
           mode={mode}
           incrementQuestionIndex={incrementQuestionIndex}
@@ -124,6 +127,10 @@ export default function UserExamInSession() {
         <ExamNotes
           setIsNotesOpen={setIsNotesOpen}
           isNotesOpen={isNotesOpen}
+          currentQuestion={currentQuestion}
+          setRefetchCount={setRefetchCount}
+          id={id}
+          questionIndex={questionIndex}
         />
         <ExamLabValues 
           isLabValuesOpen={isLabValuesOpen}

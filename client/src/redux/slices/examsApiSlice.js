@@ -78,6 +78,20 @@ export const examsApiSlice = apiSlice.injectEndpoints({
         body: { ...examInformation },
       }),
     }),
+    updateCurrentNote: builder.mutation({
+      query: (note) => ({
+        url: `/update-note`,
+        method: 'PATCH',
+        body: { ...note },
+      }),
+    }),
+    deleteCurrentNote: builder.mutation({
+      query: (note) => ({
+        url: `/delete-note`,
+        method: 'PATCH',
+        body: { ...note },
+      }),
+    }),
   }),
 });
 
@@ -87,5 +101,7 @@ export const {
   useUpdateSelectionMutation,
   useUpdateFlaggedQuestionsMutation,
   useSubmitAnswerMutation,
-  useSubmitExamMutation
+  useSubmitExamMutation,
+  useUpdateCurrentNoteMutation,
+  useDeleteCurrentNoteMutation
 } = examsApiSlice;

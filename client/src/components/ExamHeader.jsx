@@ -12,8 +12,7 @@ import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 import { useUpdateFlaggedQuestionsMutation } from "../redux/slices/examsApiSlice"
 
-export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, refetchCount, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen}) {
-    // const [markChecked, setMarkChecked] = useState(false)
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen}) {
     const [updateQuestionFlag] = useUpdateFlaggedQuestionsMutation()
     
     const navRef = useRef(null)
@@ -28,11 +27,11 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
 
     async function toggleFlag() {
         try {
-            const response = await updateQuestionFlag({
+            await updateQuestionFlag({
                 examId: id,
                 questionIndex: questionIndex,
             })
-            setRefetchCount(refetchCount + 1)
+            setRefetchCount((prevCount) => prevCount + 1)
         } catch (err) {
             console.log(err)
         }

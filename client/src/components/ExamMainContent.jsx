@@ -12,7 +12,7 @@ import {useUpdateSelectionMutation, useSubmitAnswerMutation} from "../redux/slic
 import { IoPersonCircleOutline } from "react-icons/io5"
 import { FaRegCalendarAlt } from "react-icons/fa"
 
-export default function ExamMainContent({currentQuestion, questionIndex, id, selection, refetchCount, setRefetchCount, mode, incrementQuestionIndex}) {
+export default function ExamMainContent({currentQuestion, questionIndex, id, selection, setRefetchCount, mode, incrementQuestionIndex}) {
   const [updateSelection] = useUpdateSelectionMutation()
   const [submitAnswer] = useSubmitAnswerMutation()
 
@@ -25,7 +25,7 @@ export default function ExamMainContent({currentQuestion, questionIndex, id, sel
         questionIndex: questionIndex,
         selectionByNumber: choiceIndex + 1
       })
-      setRefetchCount(refetchCount + 1)
+      setRefetchCount((prevCount) => prevCount + 1)
     } catch (err) {
       console.log(err)
     }
@@ -42,7 +42,7 @@ export default function ExamMainContent({currentQuestion, questionIndex, id, sel
         questionIndex: questionIndex,
         selectionNumber: selection || null,
       })
-      setRefetchCount(refetchCount + 1)
+      setRefetchCount((prevCount) => prevCount + 1)
     } catch (err) {
       console.log(err)
     }

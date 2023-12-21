@@ -1,8 +1,57 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {AiFillCloseCircle} from "react-icons/ai"
+import { useUpdateCurrentNoteMutation, useDeleteCurrentNoteMutation } from '../redux/slices/examsApiSlice'
 
-export default function ExamNotes({isNotesOpen, setIsNotesOpen}) {
-    const [notesText, setNotesText] = useState('')
+export default function ExamNotes({isNotesOpen, setIsNotesOpen, currentQuestion, setRefetchCount, id, questionIndex}) {
+    const [questionNoteText, setQuestionNoteText] = useState({})
+    const [updateNote] = useUpdateCurrentNoteMutation()
+    const [deleteNote] = useDeleteCurrentNoteMutation()
+
+    useEffect(() => {
+        // When a new question is selected, update the local state with the note for that question
+        if (currentQuestion?.hasNote) {
+            setQuestionNoteText((prevNotes) => ({
+            ...prevNotes,
+            [questionIndex]: currentQuestion?.note || '',
+          }));
+        }
+      }, [currentQuestion, questionIndex]);
+
+    async function handleUpdateCurrentNote(e) {
+        e.preventDefault()
+
+        try {
+            await updateNote({
+                noteText: questionNoteText[questionIndex],
+                examId: id,
+                questionIndex: questionIndex
+            })
+            setRefetchCount((prevCount) => prevCount + 1)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async function handleDeleteCurrentNote(e) {
+        e.preventDefault()
+
+        try {
+            const response = await deleteNote({
+                examId: id,
+                questionIndex: questionIndex
+            })
+            console.log(response)
+            // Reset the local state for the deleted note
+            setQuestionNoteText((prevNotes) => ({
+                ...prevNotes,
+                [questionIndex]: '',
+            }))
+
+            setRefetchCount((prevCount) => prevCount + 1)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
   return (
     <>
@@ -15,15 +64,20 @@ export default function ExamNotes({isNotesOpen, setIsNotesOpen}) {
                         name="notes" 
                         id="notes" 
                         cols="30" 
-                        rows="10"
+                        rows="9"
                         className="p-2 rounded-md"
-                        value={notesText}
-                        onChange={(e) => setNotesText(e.target.value)}
+                        value={questionNoteText[questionIndex] || ''}
+                        onChange={(e) =>
+                            setQuestionNoteText((prevNotes) => ({
+                              ...prevNotes,
+                              [questionIndex]: e.target.value,
+                            }))
+                          }
                     >
                     </textarea>
                     <div className="flex px-8 mt-8">
-                        <button className="bg-exam-secondary p-2 text-100 rounded-md crusor-pointer hover:bg-[#4783bd99] mr-auto">Save note</button>
-                        <button className="bg-exam-secondary p-2 text-100 rounded-md crusor-pointer hover:bg-[#4783bd99]">Delete note</button>
+                        <button className="bg-exam-secondary p-2 text-100 rounded-md crusor-pointer hover:bg-[#4783bd99] mr-auto" onClick={(e) => handleUpdateCurrentNote(e)}>Save note</button>
+                        <button className="bg-exam-secondary p-2 text-100 rounded-md crusor-pointer hover:bg-[#4783bd99]" onClick={(e) => handleDeleteCurrentNote(e)}>Delete note</button>
                     </div>
                 </div>
             </div>
