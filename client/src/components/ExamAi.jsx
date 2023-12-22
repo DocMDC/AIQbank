@@ -1,9 +1,12 @@
 import React from 'react'
 import { useAiChatMutation } from "../redux/slices/aiApiSlice"
 import {AiFillCloseCircle} from "react-icons/ai"
+import { useSelector } from "react-redux"
+import { selectDarkModeEnabled } from '../redux/slices/darkModeSlice'
 
 export default function ExamAi({setIsAiOpen, isAiOpen, currentQuestion, AIQuestion, setAIQuestion, AIAnswer, setAIAnswer}) {
   const [getAi, {isLoading}] = useAiChatMutation()
+  const darkModeEnabled = useSelector(selectDarkModeEnabled)
   
   const correctChoice = currentQuestion?.correctChoice
   const vignette = currentQuestion?.vignette
@@ -58,12 +61,12 @@ export default function ExamAi({setIsAiOpen, isAiOpen, currentQuestion, AIQuesti
     <>
       {isAiOpen &&
       
-      <div className="bg-300 shadow-md z-40 border border-exam-secondary mt-4 h-96 w-80 fixed bottom-20 right-14">
+      <div className={darkModeEnabled ? "bg-dm-200 shadow-md z-40 border border-dm-100 mt-4 h-96 w-80 fixed bottom-20 right-14" : "bg-300 shadow-md z-40 border border-exam-secondary mt-4 h-96 w-80 fixed bottom-20 right-14"}>
         
-        <AiFillCloseCircle className="absolute top-2 right-2 text-xl cursor-pointer hover:text-exam-secondary" onClick={() => setIsAiOpen(!isAiOpen)}/>
+        <AiFillCloseCircle className={darkModeEnabled ? "absolute top-2 right-2 text-xl cursor-pointer hover:text-dm-300" : "absolute top-2 right-2 text-xl cursor-pointer hover:text-exam-secondary"} onClick={() => setIsAiOpen(!isAiOpen)}/>
 
         <h1 className="text-lg text-center border-b border-black py-2">Ask AI</h1>
-        <div className="h-40 bg-100 rounded-md m-4 p-2 overflow-y-scroll">
+        <div className={darkModeEnabled ? "h-40 bg-dm-300 rounded-md m-4 p-2 overflow-y-scroll text-100" : "h-40 bg-100 rounded-md m-4 p-2 overflow-y-scroll"}>
         {isLoading ? (
             <p>Loading...</p>
           ) : (
@@ -77,9 +80,9 @@ export default function ExamAi({setIsAiOpen, isAiOpen, currentQuestion, AIQuesti
             placeholder='Example: Can you help me understand why choice D is correct?...'
             onChange={(e) => setAIQuestion(e.target.value)}
             value={AIQuestion}
-            className="w-full p-2"
+            className={darkModeEnabled ? "w-full p-2 bg-dm-300 text-100 placeholder:text-gray-400" : "w-full p-2"}
           />
-          <button className="bg-exam-secondary py-2 px-10 text-100 mt-4 rounded-md crusor-pointer hover:bg-[#4783bd99]">Ask AI</button>
+          <button className={darkModeEnabled ? "bg-dm-400 py-2 px-10 text-100 mt-4 rounded-md crusor-pointer hover:bg-dm-300" : "bg-exam-secondary py-2 px-10 text-100 mt-4 rounded-md crusor-pointer hover:bg-[#4783bd99]"}>Ask AI</button>
         </form>
         
       </div>

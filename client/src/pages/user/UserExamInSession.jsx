@@ -27,7 +27,6 @@ export default function UserExamInSession() {
   const [AIQuestion, setAIQuestion] = useState('')
   const [AIAnswer, setAIAnswer] = useState('')
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false)
-  const [darkModeEnabled, setDarkModeEnabled] = useState(false)
 
   useEffect(() => {
     refetch()
@@ -103,8 +102,6 @@ export default function UserExamInSession() {
       }
   }
 
-  console.log(darkModeEnabled)
-
   const time = new Date()
   time.setSeconds(time.getSeconds() + listOfQuestions.length * 90)
   return (
@@ -132,15 +129,12 @@ export default function UserExamInSession() {
           isAiOpen={isAiOpen}
           isCalculatorOpen={isCalculatorOpen}
           setIsCalculatorOpen={setIsCalculatorOpen}
-          setDarkModeEnabled={setDarkModeEnabled}
-          darkModeEnabled={darkModeEnabled}
         />
         <ExamQuestionNav
           listOfQuestions={listOfQuestions}
           questionIndex ={questionIndex}
           modifyQuestionIndex={modifyQuestionIndex}
           selection={selection}
-          darkModeEnabled={darkModeEnabled}
         />
         <ExamMainContent
           currentQuestion={currentQuestion}
@@ -150,12 +144,10 @@ export default function UserExamInSession() {
           setRefetchCount={setRefetchCount}
           mode={mode}
           incrementQuestionIndex={incrementQuestionIndex}
-          darkModeEnabled={darkModeEnabled}
         />
         <ExamLabValues 
           isLabValuesOpen={isLabValuesOpen}
           setIsLabValuesOpen={setIsLabValuesOpen}
-          darkModeEnabled={darkModeEnabled}
         />
         <ExamNotes
           setIsNotesOpen={setIsNotesOpen}
@@ -164,7 +156,6 @@ export default function UserExamInSession() {
           setRefetchCount={setRefetchCount}
           id={id}
           questionIndex={questionIndex}
-          darkModeEnabled={darkModeEnabled}
         />
         <ExamCalculator 
           isCalculatorOpen={isCalculatorOpen}
@@ -178,7 +169,6 @@ export default function UserExamInSession() {
           setAIQuestion={setAIQuestion}
           AIAnswer={AIAnswer}
           setAIAnswer={setAIAnswer}
-          darkModeEnabled={darkModeEnabled}
         />
         <ExamFooter
           handleSuspendExam={handleSuspendExam}
@@ -188,7 +178,6 @@ export default function UserExamInSession() {
           handleSubmitExam={handleSubmitExam}
           expiryTimestamp={time}
           mode={mode}
-          darkModeEnabled={darkModeEnabled}
         />
     </>
   )

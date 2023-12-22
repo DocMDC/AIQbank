@@ -15,6 +15,12 @@ export default {
         600: '#00beac', /* primary green */
         700: '#009989', /* highlight green */
         800: '#0b2033', /* alternative dark */
+        dm: {
+          100: '#ffffff',
+          200: '#a1ddfe',
+          300: '#444444',
+          400: '#000000'
+        },
         exam: {
           primary: '#d7dced;',
           secondary: '#004975',

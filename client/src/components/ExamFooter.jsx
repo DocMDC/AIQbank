@@ -3,10 +3,11 @@ import lock from "../assets/lock.png"
 import { useTimer, useStopwatch } from "react-timer-hook"
 import hexagon from "../assets/hexagon.png"
 import { FaPauseCircle } from "react-icons/fa"
-// import { setEndExamModal, selectEndExamModal } from '../redux/slices/modalSlice'
-// import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from "react-redux"
+import { selectDarkModeEnabled } from '../redux/slices/darkModeSlice'
 
 export default function ExamFooter({handleSuspendExam, endExamModalState, setEndExamModalState, score, handleSubmitExam, expiryTimestamp, mode}) {
+  const darkModeEnabled = useSelector(selectDarkModeEnabled)
   
   let seconds, minutes, hours, timer, stopWatch
 
@@ -22,14 +23,10 @@ export default function ExamFooter({handleSuspendExam, endExamModalState, setEnd
     hours = stopWatch.hours
   }
 
-  
-  // const dispatch = useDispatch()
-  // const endExamModalState = useSelector(selectEndExamModal) 
-
   return (
-    <div className="fixed bottom-0 left-20 right-0 h-14 bg-exam-secondary flex items-center justify-between py-2 px-8 text-exam-white z-[100]">
+    <div className={darkModeEnabled ? "fixed bottom-0 left-20 right-0 h-14 bg-dm-300 flex items-center justify-between py-2 px-8 text-exam-white z-[100]" : "fixed bottom-0 left-20 right-0 h-14 bg-exam-secondary flex items-center justify-between py-2 px-8 text-exam-white z-[100]"}>
 
-        <div className="border-t-2 border-l-2 border-exam-boxShadow rounded-md px-4 h-full flex items-center text-sm md:text-lg">
+        <div className={darkModeEnabled ? "border-t-2 border-l-2 border-dm-400 rounded-md px-4 h-full flex items-center text-sm md:text-lg" : "border-t-2 border-l-2 border-exam-boxShadow rounded-md px-4 h-full flex items-center text-sm md:text-lg"}>
           <p>Block Time Elapsed:
             <span> {hours}</span>
             <span>:</span>

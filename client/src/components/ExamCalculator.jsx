@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { useSelector } from "react-redux"
+import { selectDarkModeEnabled } from '../redux/slices/darkModeSlice'
 
 export default function ExamCalculator({ isCalculatorOpen, setIsCalculatorOpen }) {
 
@@ -7,6 +9,7 @@ export default function ExamCalculator({ isCalculatorOpen, setIsCalculatorOpen }
   const [currentOperand, setCurrentOperand] = useState('')
   const [previousOperand, setPreviousOperand] = useState('')
   const [operation, setOperation] = useState('')
+  const darkModeEnabled = useSelector(selectDarkModeEnabled)
 
   function handleClickOperand(operand) {
     // A previous number was entered and an operation has been selected
@@ -107,9 +110,9 @@ export default function ExamCalculator({ isCalculatorOpen, setIsCalculatorOpen }
   return (
     <>
       {isCalculatorOpen &&
-        <div className="bg-300 shadow-md z-50 border border-exam-secondary mt-4 h-96 w-80 fixed top-16 right-14">
-          <AiFillCloseCircle className="absolute top-2 right-2 text-xl cursor-pointer hover:text-exam-secondary" onClick={() => setIsCalculatorOpen(!isCalculatorOpen)}/>
-          <h1 className="text-lg flex items-center justify-center border-b border-black py-2 h-1/6 ">Calculator</h1>
+        <div className={darkModeEnabled ? "bg-dm-300 shadow-md z-50 border border-exam-secondary mt-4 h-96 w-80 fixed top-16 right-14" : "bg-300 shadow-md z-50 border border-exam-secondary mt-4 h-96 w-80 fixed top-16 right-14"}>
+          <AiFillCloseCircle className={darkModeEnabled ? "text-dm-200 absolute top-2 right-2 text-xl cursor-pointer hover:text-dm-400" : "absolute top-2 right-2 text-xl cursor-pointer hover:text-exam-secondary"} onClick={() => setIsCalculatorOpen(!isCalculatorOpen)}/>
+          <h1 className={darkModeEnabled ? "text-lg flex items-center justify-center border-b border-black py-2 h-1/6 text-100" : "text-lg flex items-center justify-center border-b border-black py-2 h-1/6"}>Calculator</h1>
 
           <div className="grid grid-cols-4 gap-2 h-5/6 p-2 bg-[#4783bd99]">
             <div className="col-span-4 border-2 border-black flex items-center justify-end px-2 text-lg bg-100">{display === '' ? 0 : display}</div>
