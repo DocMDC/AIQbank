@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { useAiChatMutation } from "../redux/slices/aiApiSlice"
 import {AiFillCloseCircle} from "react-icons/ai"
 
@@ -74,7 +74,7 @@ export default function ExamAi({setIsAiOpen, isAiOpen, currentQuestion, AIQuesti
         <form onSubmit={handleGetAi} className="flex flex-col items-center mx-4">
           <textarea 
             id="aiQuestion"
-            placeholder='Can you help me understand why choice D is the correct answer?'
+            placeholder='Example: Can you help me understand why choice D is correct?...'
             onChange={(e) => setAIQuestion(e.target.value)}
             value={AIQuestion}
             className="w-full p-2"

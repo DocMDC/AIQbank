@@ -12,7 +12,7 @@ import useClickOutNav from "../hooks/useClickOutNav"
 import useToggleOnResize from "../hooks/useToggleOnResize"
 import { useUpdateFlaggedQuestionsMutation } from "../redux/slices/examsApiSlice"
 
-export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen, isAiOpen, setIsAiOpen}) {
+export default function ExamHeader({questionIndex, decrementQuestionIndex, incrementQuestionIndex, listOfQuestions, id, currentQuestion, setRefetchCount, isLabValuesOpen, setIsLabValuesOpen, isNotesOpen, setIsNotesOpen, isAiOpen, setIsAiOpen, isCalculatorOpen, setIsCalculatorOpen, setDarkModeEnabled, darkModeEnabled}) {
     const [updateQuestionFlag] = useUpdateFlaggedQuestionsMutation()
     
     const navRef = useRef(null)
@@ -38,7 +38,7 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
     }
 
     return (
-    <div className="fixed top-0 left-20 right-0 h-14 p-2 bg-exam-secondary text-exam-white flex items-center">
+    <div className="fixed top-0 left-20 right-0 h-14 p-2 bg-exam-secondary text-exam-white flex items-center z-[100]">
         <div className="max-w-[110px] h-10 border-t-2 border-l-2 border-exam-boxShadow rounded-md flex items-center justify-center px-1">
             <p className="text-xs">Item: <span>{questionIndex + 1}</span> of <span>{listOfQuestions.length}</span>
             </p>
@@ -97,7 +97,7 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
                         <p className="text-sm">Notes</p>
                     </div>
 
-                    <div className="flex flex-col items-center justify-between  cursor-pointer mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+                    <div className="flex flex-col items-center justify-between  cursor-pointer mr-2 w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setIsCalculatorOpen(!isCalculatorOpen)}>
                         <img src={calculator} alt="lab icon" className="h-6" />
                         <p className="text-sm">Calculator</p>
                     </div>
@@ -107,7 +107,7 @@ export default function ExamHeader({questionIndex, decrementQuestionIndex, incre
                         <p className="text-sm">Ask AI</p>
                     </div>
 
-                    <div className="flex flex-col items-center justify-between cursor-pointer w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]">
+                    <div className="flex flex-col items-center justify-between cursor-pointer w-24 h-12 hover:rounded-md hover:border hover:border-black hover:bg-[#4783bd99]" onClick={() => setDarkModeEnabled(!darkModeEnabled)}>
                         <img src={reverseColor} alt="lab icon" className="h-6" />
                         <p className="text-sm">Dark Mode</p>
                     </div>

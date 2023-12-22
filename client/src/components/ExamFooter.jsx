@@ -27,7 +27,7 @@ export default function ExamFooter({handleSuspendExam, endExamModalState, setEnd
   // const endExamModalState = useSelector(selectEndExamModal) 
 
   return (
-    <div className="fixed bottom-0 left-20 right-0 h-14 bg-exam-secondary flex items-center justify-between py-2 px-8 text-exam-white">
+    <div className="fixed bottom-0 left-20 right-0 h-14 bg-exam-secondary flex items-center justify-between py-2 px-8 text-exam-white z-[100]">
 
         <div className="border-t-2 border-l-2 border-exam-boxShadow rounded-md px-4 h-full flex items-center text-sm md:text-lg">
           <p>Block Time Elapsed:
