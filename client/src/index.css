@@ -15,6 +15,12 @@
 }
 
 @layer components {
+    .front-btn-1 {
+        @apply mx-auto w-56 flex items-center justify-center bg-front-500 rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-75 hover:bg-front-600
+    }
+}
+
+@layer components {
     .below-header-height {
         @apply min-h-[calc(100vh-5rem)]
     }

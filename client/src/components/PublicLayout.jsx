@@ -5,7 +5,7 @@ import PublicNav from "./PublicNav"
 export default function PublicLayout() {
   return (
     <>
-      <div className="layout">
+      <div className="layout z-[100]">
           <PublicNav/>
       </div>
       <div className="mt-20">

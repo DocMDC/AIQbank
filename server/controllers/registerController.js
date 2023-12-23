@@ -36,8 +36,8 @@ const handleRegister = async (req, res) => {
             "email": email,
             "roles": {
                 "User": ROLES_LIST.user,
-                "Teacher": ROLES_LIST.teacher,
-                "Admin": ROLES_LIST.admin,
+                // "Teacher": ROLES_LIST.teacher,
+                // "Admin": ROLES_LIST.admin,
             },
             "password": hashedPassword,
             "questions": questionsObj

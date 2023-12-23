@@ -93,9 +93,9 @@ export default function Login() {
   }
 
   return (
-    <div className="below-header-height flex items-center justify-center">
-      <div className="min-h-[475px] w-[325px] bg-public-400 rounded-md px-4 relative">
-        <h1 className={errMsg ? "font-serif text-center text-2xl border-b border-public-200 pb-4 mt-6 text-public-100 mb-3" : "font-serif text-center text-2xl border-b border-public-200 pb-4 mt-6 text-public-100 mb-10"}>Login</h1>
+    <div className="below-header-height flex items-center justify-center bg-front-300">
+      <div className="min-h-[475px] w-[325px] bg-front-100 rounded-md px-4 relative">
+        <h1 className={errMsg ? "font-serif text-center text-2xl border-b-2 border-front-400 pb-4 mt-6 text-public-100 mb-3" : "font-serif text-center text-2xl border-b-2 border-front-400 pb-4 mt-6 text-black mb-10"}>Login</h1>
         <p ref={errRef} className={errMsg ? "pt-2 text-center text-red-500 text-sm" : "hidden"}>{errMsg}</p>
         <form className="flex flex-col font-serif relative" onSubmit={submitLoginForm}>
 
@@ -126,7 +126,7 @@ export default function Login() {
           />
 
           <div className="flex items-center h-6 w-44 mb-6">
-            <label htmlFor="persist" className="mr-3 cursor-pointer text-public-100">Trust this device?</label>
+            <label htmlFor="persist" className="mr-3 cursor-pointer text-black">Trust this device?</label>
             <input 
               type="checkbox" 
               id="persist"
@@ -136,10 +136,10 @@ export default function Login() {
             />
           </div>          
 
-          <button className={!validEmail || loginForm.password.length === 0 ? "mx-auto w-56 flex items-center justify-center bg-gray-200 rounded-2xl h-12 p-2 text-black" : "secondary-btn"} disabled={!validEmail ? true : false}>Submit</button>
+          <button className={!validEmail || loginForm.password.length === 0 ? "mx-auto w-56 flex items-center justify-center bg-gray-200 rounded-2xl h-12 p-2 text-black" : "mx-auto w-56 flex items-center justify-center bg-front-500 rounded-2xl h-12 p-2 cursor-pointer text-white transition ease-in-out delay-75 hover:bg-front-600"} disabled={!validEmail ? true : false}>Submit</button>
 
-          <h6 className="text-[12px] mt-6 text-public-100">Not a user? <span className="text-public-200 cursor-pointer hover:text-public-300"><Link to="/register">Register here.</Link></span></h6>
-          <h6 className="text-[12px] mt-2 text-public-100">Forgot your <span className="text-public-200 cursor-pointer hover:text-public-300"><Link to="/forgot-password">password?</Link></span></h6>
+          <h6 className="text-[12px] mt-6 text-black">Not a user? <span className="text-front-500 cursor-pointer hover:text-front-600"><Link to="/register">Register here.</Link></span></h6>
+          <h6 className="text-[12px] mt-2 text-black">Forgot your <span className="text-front-500 cursor-pointer hover:text-front-600"><Link to="/forgot-password">password?</Link></span></h6>
 
         </form>
       </div>

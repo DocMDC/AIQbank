@@ -103,7 +103,7 @@ export default function Register() {
     }
 
     return (
-        <div className="below-header-height flex items-center justify-center">
+        <div className="below-header-height flex items-center justify-center bg-front-300">
             <div className="min-h-[625px] w-[325px] bg-public-100 border-bg-public-200 border rounded-md px-4 relative">
                 <h1 className="text-center text-2xl border-b border-public-400 pb-6 mt-6">Register</h1>
                 <p ref={errRef} className={errMsg ? "pt-2 text-center text-red-500 absolute text-sm w-[294px]" : "hidden"}>{errMsg}</p>
@@ -152,12 +152,12 @@ export default function Register() {
                     />
                     <p className={confirmPwdFocus && !validMatch ? "text-red-600 text-xs mt-2 mb-2" : "hidden"}>Must match the first password input field.</p>
                     
-                    <button className={!validEmail || !validPwd || !validMatch ? "mx-auto w-56 flex items-center justify-center bg-gray-200 rounded-2xl h-12 p-2 text-black" : "primary-btn"} disabled={!validEmail || !validPwd || !validMatch ? true : false}>Submit</button>
+                    <button className={!validEmail || !validPwd || !validMatch ? "mx-auto w-56 flex items-center justify-center bg-gray-200 rounded-2xl h-12 p-2 text-black" : "front-btn-1"} disabled={!validEmail || !validPwd || !validMatch ? true : false}>Submit</button>
 
-                    <h6 className="text-[12px] mb-6 mt-4">Already a user? <span className="text-public-200 cursor-pointer hover:text-highlight"><Link to="/login">Login here.</Link></span></h6>
+                    <h6 className="text-[12px] mb-6 mt-4">Already a user? <span className="text-front-500 cursor-pointer hover:text-front-600"><Link to="/login">Login here.</Link></span></h6>
                     <h6 className="text-[12px]">By clicking submit, I acknowledge receipt of the Edge Up Learning, inc. 
                     <Link to='/privacy'>
-                        <span className="text-public-200 cursor-pointer hover:text-public-300"> privacy policy</span>
+                        <span className="text-front-500 cursor-pointer hover:text-front-600"> privacy policy</span>
                     </Link>
                     .</h6>
                 </form>
