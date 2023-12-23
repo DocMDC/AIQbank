@@ -10,13 +10,16 @@ export default function PersistLogin() {
     const refresh = useRefreshToken()
     const currentToken = useSelector(selectCurrentToken)
     const trustLocalComputer = useSelector(selectPersist)
+    console.log('attempting to refresh')
 
     useEffect(() => {
         let isMounted = true
 
         async function verifyRefreshToken () {
             try {
-                await refresh()
+                const response = await refresh()
+                console.log('this is the response in PeresistLogin.jsx')
+                console.log(response)
             } catch (err) {
                 console.error(err)
             } finally {
@@ -28,12 +31,6 @@ export default function PersistLogin() {
 
         return () => isMounted = false
     }, [])
-    
-
-    // useEffect(() => {
-    //     console.log(`isLoading: ${isLoading}`)
-    //     console.log(`token: ${currentToken}`)
-    // }, [isLoading])
 
   return (
     <>

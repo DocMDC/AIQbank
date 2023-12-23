@@ -9,8 +9,12 @@ export default function RequireAuth({ allowedRoles }) {
     const roles = useSelector(selectCurrentRoles)
     const location = useLocation()
     
-    const hasAccess = roles?.find(role => allowedRoles.includes(role))
-  
+    // const hasAccess = roles?.find(role => allowedRoles.includes(role))
+
+    const hasAccess = roles?.some((role) => allowedRoles.includes(role))
+    console.log(hasAccess)
+    console.log(token)
+
     if (!token && !hasAccess) {
       return <Navigate to="/login" state={{ from: location }} replace/>
     }

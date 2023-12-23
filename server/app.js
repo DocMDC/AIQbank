@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/dbConn.js'; 
 import verifyJWT from './middleware/verifyJWT.js';
+import verifyRoles from "./middleware/verifyRoles.js"
 import { handleFilterQuestions } from "./controllers/filterQuestionsController.js"
 import { handlePrepareExam } from "./controllers/prepareExamController.js"
 import { handleGetExams } from "./controllers/getExamsController.js"
@@ -18,6 +19,14 @@ import { handleSubmitAnswer } from "./controllers/submitAnswerController.js"
 import { handleSubmitExam } from "./controllers/submitExamController.js"
 import { handleUpdateNote } from "./controllers/updateNoteController.js"
 import { handleDeleteNote } from "./controllers/deleteNoteController.js"
+import { getAi } from './controllers/getAiController.js'
+import { handleAddQuestion } from "./controllers/addQuestionController.js"
+import { handleGetQuestions } from "./controllers/getQuestionsController.js"
+import { handleGetQuestionById } from "./controllers/getQuestionByIdController.js"
+import { handleEditQuestion } from "./controllers/editQuestionController.js"
+import { handleDeleteQuestion } from "./controllers/deleteQuestionController.js"
+import { handleRefreshToken } from './controllers/refreshTokenController.js';
+
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -41,12 +50,11 @@ app.use(helmet());
 // Cookies
 app.use(cookieParser());
 
-//May need to implement refresh token / fix auth here before routes
-
 // Routes
 app.use('/api/v1', allRoutes);
 
-//Routes requiring user identification
+//Routes requiring user identification / role verification 
+app.use('/api/v1//refresh', verifyJWT, handleRefreshToken);
 app.use('/api/v1/filter-questions', verifyJWT, handleFilterQuestions)
 app.use('/api/v1/prepare-questions', verifyJWT, handlePrepareExam)
 app.use('/api/v1/get-exams', verifyJWT, handleGetExams)
@@ -58,6 +66,13 @@ app.use('/api/v1/submit-answer', verifyJWT, handleSubmitAnswer)
 app.use('/api/v1/submit-exam', verifyJWT, handleSubmitExam)
 app.use('/api/v1/update-note', verifyJWT, handleUpdateNote)
 app.use('/api/v1/delete-note', verifyJWT, handleDeleteNote)
+app.use('/api/v1/ai', verifyJWT, verifyRoles(19840, 42805, 94768), getAi)
+app.use('/api/v1/add-question', verifyJWT, verifyRoles(42805, 94768), handleAddQuestion)
+app.use('/api/v1/get-questions', verifyJWT, verifyRoles(42805, 94768), handleGetQuestions)
+app.use('/api/v1/get-question/:id', verifyJWT, verifyRoles(42805, 94768), handleGetQuestionById)
+app.use('/api/v1/edit-question', verifyJWT, verifyRoles(42805, 94768), handleEditQuestion)
+app.use('/api/v1/delete-question/:id', verifyJWT, verifyRoles(42805, 94768), handleDeleteQuestion)
+
 
 // Errors
 app.use(errorHandler);

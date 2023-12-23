@@ -7,7 +7,7 @@ export default function AdminDashboard() {
         <h1>Home</h1>
       </div>
       <div className="bg-100 mt-4 min-h-[1000px]">
-        <h1>Form</h1>
+        <h1>Welcome to the Admin Dashboard. Here you can add, edit, and delete questions for all of the users.</h1>
       </div>
     </div>
   )

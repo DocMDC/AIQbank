@@ -95,7 +95,7 @@ export default function Login() {
   return (
     <div className="below-header-height flex items-center justify-center bg-front-300">
       <div className="min-h-[475px] w-[325px] bg-front-100 rounded-md px-4 relative">
-        <h1 className={errMsg ? "font-serif text-center text-2xl border-b-2 border-front-400 pb-4 mt-6 text-public-100 mb-3" : "font-serif text-center text-2xl border-b-2 border-front-400 pb-4 mt-6 text-black mb-10"}>Login</h1>
+        <h1 className={errMsg ? "font-serif text-center text-2xl border-b-2 border-front-400 pb-4 mt-6 text-black mb-3" : "font-serif text-center text-2xl border-b-2 border-front-400 pb-4 mt-6 text-black mb-10"}>Login</h1>
         <p ref={errRef} className={errMsg ? "pt-2 text-center text-red-500 text-sm" : "hidden"}>{errMsg}</p>
         <form className="flex flex-col font-serif relative" onSubmit={submitLoginForm}>
 

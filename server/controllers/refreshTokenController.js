@@ -5,6 +5,7 @@ const handleRefreshToken = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
+    console.log(refreshToken)
 
     const userFound = await UserModel.findOne({ refreshToken }).exec();
     if (!userFound) return res.sendStatus(403); //Forbidden 
