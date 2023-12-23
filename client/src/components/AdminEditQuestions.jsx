@@ -105,7 +105,6 @@ export default function AdminEditQuestions() {
         correctChoice: editedQuestions[questionId]?.correctChoice
       })
 
-      console.log(response.data.message)
       // Refetch only after a successful edit
       if (response.data && response.data.message === 'Question successfully edited') {
         refetch();
@@ -244,7 +243,7 @@ export default function AdminEditQuestions() {
                         </select>
                       </div>
                       
-                      <div className="flex">
+                      <div className="flex mt-10">
                         <button className="primary-btn">Save Changes</button>
                         <button className="primary-btn" onClick={(e) => handleDeleteQuestion(e, question._id)}>Delete Question</button>
                       </div>

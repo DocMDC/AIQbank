@@ -8,29 +8,32 @@ import { useSelector } from "react-redux"
 export default function PersistLogin() {
     const [isLoading, setIsLoading] = useState(true)
     const refresh = useRefreshToken()
+
     const currentToken = useSelector(selectCurrentToken)
     const trustLocalComputer = useSelector(selectPersist)
-    console.log('attempting to refresh')
 
     useEffect(() => {
         let isMounted = true
 
-        async function verifyRefreshToken () {
+        async function verifyRefreshToken() {
             try {
-                const response = await refresh()
-                console.log('this is the response in PeresistLogin.jsx')
-                console.log(response)
+                const response = await refresh();
             } catch (err) {
-                console.error(err)
+                console.error('Error refreshing token:', err);
             } finally {
-                isMounted && setIsLoading(false)
+                isMounted && setIsLoading(false);
             }
         }
-    
-        !currentToken && trustLocalComputer ? verifyRefreshToken() : setIsLoading(false)
+        
+        if (currentToken === null && trustLocalComputer) {
+            verifyRefreshToken()
+        } else {
+            setIsLoading(false)
+        }
+        // !currentToken && trustLocalComputer ? verifyRefreshToken() : setIsLoading(false)
 
         return () => isMounted = false
-    }, [])
+    }, [currentToken, trustLocalComputer])
 
   return (
     <>

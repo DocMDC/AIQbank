@@ -11,12 +11,12 @@ export default function Purchase() {
     <>
       <div className="min-h-screen py-16 px-16 flex flex-col items-center sm:px-20">
         <h1 className="text-4xl text-center font-serif mb-10 mt-6">Supercharge your learning. Try for 
-            <Link to="register">
+            <Link to="/register">
                 <span className="text-front-500 cursor-pointer transition ease-in-out delay-75 hover:text-front-600"> free.
                 </span>
             </Link>
         </h1>
-        <Link to="register">
+        <Link to="/register">
             <div className="w-36 flex items-center bg-front-500 rounded-2xl h-12 p-2 cursor-pointer mb-14 transition ease-in-out delay-75 hover:bg-front-600">
                 <p className="mr-auto text-white font-serif text-md">Get started</p>
                 <span className="text-white text-xl"><RiArrowRightLine/></span>

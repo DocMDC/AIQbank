@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 
 const verifyJWT = (req, res, next) => {
-    console.log('verifying JWT')
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
     const token = authHeader.split(' ')[1];
@@ -13,7 +12,6 @@ const verifyJWT = (req, res, next) => {
 
             req.user = decoded.UserInfo.email;
             req.roles = decoded.UserInfo.roles;
-            console.log(req.roles)
             next();
         }
     );

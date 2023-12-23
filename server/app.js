@@ -54,7 +54,7 @@ app.use(cookieParser());
 app.use('/api/v1', allRoutes);
 
 //Routes requiring user identification / role verification 
-app.use('/api/v1//refresh', verifyJWT, handleRefreshToken);
+app.use('/api/v1/refresh', handleRefreshToken);
 app.use('/api/v1/filter-questions', verifyJWT, handleFilterQuestions)
 app.use('/api/v1/prepare-questions', verifyJWT, handlePrepareExam)
 app.use('/api/v1/get-exams', verifyJWT, handleGetExams)
